@@ -180,15 +180,17 @@ struct DashboardView: View {
                             }
                         )
 
-                        // Prestige
-                        PrestigeCardView(
-                            prestigeState: engine.prestigeState,
-                            totalCredits: engine.threatState.totalCreditsEarned,
-                            canPrestige: engine.canPrestige,
-                            creditsRequired: engine.creditsRequiredForPrestige,
-                            helixCoresReward: engine.helixCoresFromPrestige,
-                            onPrestige: { showingPrestige = true }
-                        )
+                        // Prestige (only in endless mode)
+                        if !engine.isInCampaignMode {
+                            PrestigeCardView(
+                                prestigeState: engine.prestigeState,
+                                totalCredits: engine.threatState.totalCreditsEarned,
+                                canPrestige: engine.canPrestige,
+                                creditsRequired: engine.creditsRequiredForPrestige,
+                                helixCoresReward: engine.helixCoresFromPrestige,
+                                onPrestige: { showingPrestige = true }
+                            )
+                        }
                     }
                     .padding()
                 }
@@ -469,17 +471,19 @@ struct DashboardView: View {
                     )
                     .padding()
 
-                    // Prestige section
-                    PrestigeCardView(
-                        prestigeState: engine.prestigeState,
-                        totalCredits: engine.threatState.totalCreditsEarned,
-                        canPrestige: engine.canPrestige,
-                        creditsRequired: engine.creditsRequiredForPrestige,
-                        helixCoresReward: engine.helixCoresFromPrestige,
-                        onPrestige: { showingPrestige = true }
-                    )
-                    .padding(.horizontal)
-                    .padding(.bottom, 20)
+                    // Prestige section (only in endless mode)
+                    if !engine.isInCampaignMode {
+                        PrestigeCardView(
+                            prestigeState: engine.prestigeState,
+                            totalCredits: engine.threatState.totalCreditsEarned,
+                            canPrestige: engine.canPrestige,
+                            creditsRequired: engine.creditsRequiredForPrestige,
+                            helixCoresReward: engine.helixCoresFromPrestige,
+                            onPrestige: { showingPrestige = true }
+                        )
+                        .padding(.horizontal)
+                        .padding(.bottom, 20)
+                    }
                 }
             }
         }
