@@ -16,6 +16,7 @@ struct StoryDialogueView: View {
     @State private var showContinue: Bool = false
     @State private var glitchOffset: CGFloat = 0
     @State private var scanlinePhase: CGFloat = 0
+    @State private var typewriterTimer: Timer?
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -314,12 +315,17 @@ struct StoryDialogueView: View {
     }
 
     private func typewriterEffect(text: String) {
+        // Cancel any existing timer first
+        typewriterTimer?.invalidate()
+        typewriterTimer = nil
+
         let characters = Array(text)
         var index = 0
 
-        Timer.scheduledTimer(withTimeInterval: typewriterSpeed, repeats: true) { timer in
+        typewriterTimer = Timer.scheduledTimer(withTimeInterval: typewriterSpeed, repeats: true) { timer in
             guard index < characters.count else {
                 timer.invalidate()
+                typewriterTimer = nil
                 isTyping = false
                 showContinue = true
                 return
@@ -337,6 +343,10 @@ struct StoryDialogueView: View {
 
     private func handleTap() {
         if isTyping {
+            // Stop the typewriter timer first
+            typewriterTimer?.invalidate()
+            typewriterTimer = nil
+
             // Skip to end of current line
             displayedText = currentLine.text
             isTyping = false
