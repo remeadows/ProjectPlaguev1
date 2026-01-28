@@ -1174,17 +1174,30 @@ The original black site created not one AI, but SEVEN. Malus was just the first 
 **Reopened**: 2026-01-28
 **Reason**: Sound quality is terrible on iPhone 16 Pro Max (iOS 26.2.1)
 
-**User Feedback**:
-- Testing on physical device reveals poor audio quality
-- Needs investigation and improvement
+**User Feedback** (iPhone 16 Pro Max, iOS 26.2.1):
+1. **Button sounds not playing** - No audio feedback on button taps
+2. **Background music is just a buzz** - Procedural ambient synth producing unpleasant buzz instead of music
+3. **Update ring bell too loud** - Milestone/alert sounds are jarring and distracting
+4. **Missing haptic feedback** - Touch responses should play tones AND vibrate phone
+
+**Issues Identified**:
+| Problem | Component | Likely Cause |
+|---------|-----------|--------------|
+| No button sounds | `playSound()` | AudioServicesPlaySystemSound not working (see ISSUE-008) |
+| Buzz instead of music | AVAudioEngine | Procedural synth parameters wrong, or audio graph issue |
+| Bell too loud | Alert sounds | No volume normalization, no user volume control |
+| No haptics | `triggerHaptic()` | Not being called, or haptic engine not initialized |
 
 **TODO**:
-- [ ] Test on physical device to reproduce issue
-- [ ] Identify specific sounds that are problematic (SFX, ambient, haptics?)
-- [ ] Check audio file formats, bitrates, sample rates
-- [ ] Review AVAudioEngine configuration
-- [ ] Consider replacing procedural audio with pre-recorded assets
-- [ ] Test across multiple device types
+- [ ] Fix button sounds (related to ISSUE-008 - use AVAudioPlayer instead of system sounds)
+- [ ] Replace procedural ambient synth with pre-recorded cyberpunk music loop
+- [ ] Add volume control/normalization for alert sounds
+- [ ] Verify haptic feedback is triggering on button taps
+- [ ] Add user settings: Master Volume, SFX Volume, Music Volume, Haptics On/Off
+- [ ] Source or create proper cyberpunk audio assets (.m4a or .wav)
+- [ ] Test on physical device after each fix
+
+**Related Issues**: ISSUE-008 (Sound plays when volume off - same root cause)
 
 **Files**: `Engine/AudioManager.swift`
 
