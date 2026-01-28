@@ -38,9 +38,52 @@ Modified `performInitialCloudSync()` in `NavigationCoordinator.swift` to:
 
 **Closed**: 2026-01-21
 
+### ISSUE-007: Cloud Save Does Not Work
+**Status**: 🔴 Open
+**Severity**: Critical
+**Description**: Cloud save functionality is not working. Player progress is not syncing across devices or to the cloud.
+**Impact**: Players cannot recover progress if they switch devices or reinstall the app. Critical for user retention.
+**Solution**: TBD - Investigate iCloud/CloudKit implementation
+**Files**: TBD
+
 ---
 
 ## 🟠 Major (Significant Impact)
+
+### ISSUE-008: Sound Plays When Phone Volume Is Off
+**Status**: 🟠 Open
+**Severity**: Major
+**Description**: Game sounds are still audible when the phone's volume is turned all the way down. Sounds should respect the device's ringer/media volume settings.
+**Impact**: Disruptive to users in quiet environments; unexpected audio in meetings, etc.
+**Solution**: Ensure AudioManager uses the correct audio session category (e.g., `.ambient` or `.playback`) and respects system volume. Check if sounds are bypassing the silent switch.
+**Files**: `Engine/AudioManager.swift`
+
+### ISSUE-009: Starting Credits Should Be Zero Per Level
+**Status**: 🟠 Open
+**Severity**: Major
+**Description**: Each campaign level should start with zero credits. Currently, players can beat levels too quickly due to starting credit balance.
+**Impact**: Game balance issue - levels are too easy and don't provide intended challenge/progression.
+**Solution**: Reset credits to 0 at the start of each campaign level.
+**Files**: `Engine/GameEngine.swift`, `Models/CampaignProgress.swift`
+
+### ISSUE-010: Offline Progress Lost When Switching Apps
+**Status**: 🟠 Open
+**Severity**: Major
+**Description**: When user switches to a different app (swipes away) or turns screen off without manually saving, all progress since last save is lost. The game closes without auto-saving.
+**Impact**: Frustrating user experience - players lose progress unexpectedly.
+**Solution**: Implement auto-save on app backgrounding using `scenePhase` changes or `UIApplication.willResignActiveNotification`. Save state when entering background.
+**Files**: `Engine/GameEngine.swift`, `Project_PlagueApp.swift`
+
+### ISSUE-011: App Defenses Don't Affect Game Success
+**Status**: 🟠 Open
+**Severity**: Major
+**Description**: Defense applications are too cheap and upgrade too quickly. They don't meaningfully impact game success. The intended mechanic is: better app defenses = more intel collected to send to team. Currently intel collection should NOT start until proper defenses are deployed.
+**Impact**: Removes strategic depth from defense system; intel reports too easy to obtain.
+**Solution**:
+1. Increase defense app costs and upgrade time
+2. Gate intel collection behind defense deployment
+3. Scale intel collection rate with defense quality
+**Files**: `Models/DefenseApplication.swift`, `Engine/GameEngine.swift`
 
 ### ISSUE-001: Save Migration Not Implemented
 **Status**: ✅ Closed
@@ -54,6 +97,46 @@ Modified `performInitialCloudSync()` in `NavigationCoordinator.swift` to:
 ---
 
 ## 🟡 Minor (Polish/UX)
+
+### ISSUE-012: Level Dialog Goal Accuracy
+**Status**: 🟡 Open
+**Severity**: Minor
+**Description**: Dialog text shows incorrect goal requirements. Example: Level 1 dialog says it takes 2,000 credits to complete, but actual requirement differs per CLAUDE.md (Level 1 = 50K credits).
+**Impact**: Confusing for players; undermines trust in game instructions.
+**Solution**: Audit all level dialogs and correct goal text to match actual requirements in code.
+**Files**: `Views/` (dialog-related views), Lore/Story text files
+
+### ISSUE-013: Achievement Rewards - Are They Instant?
+**Status**: 🟡 Open
+**Severity**: Minor
+**Description**: Unclear whether achievement rewards are granted instantly upon completion or require manual claim.
+**Impact**: UX confusion; need to verify and document expected behavior.
+**Solution**: Investigate current implementation and decide on intended behavior.
+**Files**: `Models/MilestoneSystem.swift`, `Engine/GameEngine.swift`
+
+### ISSUE-014: Total Playtime Not Displaying
+**Status**: 🟡 Open
+**Severity**: Minor
+**Description**: Total playtime statistic is not showing in the stats/lifetime stats view.
+**Impact**: Players cannot see how long they've played the game.
+**Solution**: Ensure playtime is being tracked and displayed correctly in stats UI.
+**Files**: `Engine/GameEngine.swift`, `Views/` (stats views)
+
+### ISSUE-015: Tier Requirements Display Incorrect
+**Status**: 🟡 Open
+**Severity**: Minor
+**Description**: The requirements shown for purchasing next tier of Source, Link, and Sink nodes incorrectly mentions "Target level". Threat level has nothing to do with tier unlocks.
+**Impact**: Misleading UI text; players don't understand actual unlock requirements.
+**Solution**: Update tier requirement text to show correct unlock conditions (max level of current tier).
+**Files**: `Views/UnitShopView.swift`
+
+### ISSUE-016: Analyze Lifetime Stats
+**Status**: 🟡 Open
+**Severity**: Minor
+**Description**: Review and analyze lifetime stats implementation. Ensure all relevant stats are being tracked and displayed accurately.
+**Impact**: Analytics and player engagement features.
+**Solution**: Audit lifetime stats tracking and display.
+**Files**: `Engine/GameEngine.swift`, Stats views
 
 ### ISSUE-002: Connection Line Animation Jank
 **Status**: ✅ Closed
@@ -94,6 +177,86 @@ Modified `performInitialCloudSync()` in `NavigationCoordinator.swift` to:
 ---
 
 ## 🟢 Enhancement Requests
+
+### ENH-008: Cyber Defense Certificates Per Level
+**Priority**: Medium
+**Status**: Open
+**Description**: Award Cyber Defense certificates after completing each campaign level. These certifications should be displayed on the player's account/profile.
+**Notes**: Could tie into real-world security cert names (CompTIA Security+, CISSP-lite, etc.) or create fictional equivalents matching game lore.
+
+### ENH-009: Endless Mode Slower Gameplay
+**Priority**: Medium
+**Status**: Open
+**Description**: Make Endless Mode gameplay slower, similar to the balance changes needed in ISSUE-009. Progression should feel more deliberate.
+**Notes**: Adjust tick rates, costs, and/or production rates for Endless Mode specifically.
+
+### ENH-010: Insane Mode - Slow, Expensive, Frequent Attacks
+**Priority**: Medium
+**Status**: Open
+**Description**: Create an "Insane Mode" difficulty with:
+- Slower progression
+- Much higher costs for upgrades
+- Frequent attack events from Malus
+**Notes**: Could be unlocked after completing campaign or reaching certain prestige level.
+
+### ENH-011: Expand Tiers to 25 with New Names
+**Priority**: High
+**Status**: Open
+**Description**: Unit shop and app defense need expansion to Tier 25. Brainstorm new product names for:
+- Source nodes (data harvesting)
+- Link nodes (transport)
+- Sink nodes (processing)
+- Defense applications (all 6 categories)
+**Notes**: Current tiers go to Tier 6 (Quantum). Need Tiers 7-25 with thematic naming.
+
+### ENH-012: New Campaign Levels Beyond 7
+**Priority**: Medium
+**Status**: Open
+**Description**: Brainstorm and design new campaign levels beyond the current 7. Consider:
+- New story beats with Malus/Helix
+- Escalating mechanics
+- New environments or scenarios
+**Notes**: Current max is Level 7 (25M credits, 320 reports).
+
+### ENH-013: Level 1 Rusty Tutorial Walkthrough
+**Priority**: High
+**Status**: Open
+**Description**: In Level 1, Rusty should perform a guided walkthrough explaining:
+- How to play the game
+- Core mechanics (Source → Link → Sink)
+- Goals and victory conditions
+- Threat system basics
+**Notes**: Consider step-by-step tutorial with highlighting and forced actions.
+
+### ENH-014: Game Engagement Improvements
+**Priority**: High
+**Status**: Open
+**Description**: Brainstorm features to make the game more engaging and keep users interested longer:
+- Daily rewards/login bonuses
+- Streak systems
+- Limited-time events
+- Social features
+- Achievement hunting
+- Collection mechanics
+**Notes**: Focus on retention without becoming predatory.
+
+### ENH-015: Ad/Purchase Multipliers
+**Priority**: Medium
+**Status**: Open
+**Description**: Brainstorm multiplier systems:
+- **Watch Ads**: Temporary multipliers (2x production for 30 min, etc.)
+- **Lifetime Purchase**: Permanent multipliers if game is purchased (remove ads + bonus)
+**Notes**: Balance between F2P accessibility and rewarding paying users.
+
+### ENH-016: Weekend Tournaments for Endless Mode
+**Priority**: Medium
+**Status**: Open
+**Description**: Brainstorm weekend tournament system for Endless Mode:
+- Timed challenges (highest score in X hours)
+- Leaderboards
+- Exclusive rewards (cosmetics, unique upgrades)
+- Special tournament modifiers
+**Notes**: Could require server infrastructure for leaderboards.
 
 ### ENH-002: iPad Layout
 **Priority**: High
@@ -177,6 +340,33 @@ Modified `performInitialCloudSync()` in `NavigationCoordinator.swift` to:
 **Status**: ✅ Closed
 **Resolution**: Changed system sounds to cyberpunk-themed electronic tones. Added procedural ambient synth drone generator using AVAudioEngine.
 **Closed**: 2026-01-19
+
+---
+
+## 📘 Documentation & Questions
+
+### DOC-001: App Store Deployment Process
+**Status**: Open
+**Type**: Documentation
+**Description**: Document the full process for deploying apps to the App Store, including:
+- Apple Developer Program enrollment
+- App Store Connect setup
+- Provisioning profiles and certificates
+- TestFlight beta testing
+- App Review guidelines
+- Submission checklist
+- Common rejection reasons
+**Notes**: Reference ENH-006 for asset requirements.
+
+### DOC-002: Claude Cowork Xcode/Simulator Permissions
+**Status**: Open
+**Type**: Documentation
+**Description**: How to give Claude Cowork (or similar AI coding assistants) permission to:
+- Run Xcode projects
+- Launch the iOS Simulator
+- Execute build commands
+- Access project files
+**Notes**: May involve macOS security permissions, Xcode command-line tools, and terminal access.
 
 ---
 
