@@ -359,13 +359,294 @@ malusIntel.addFootprint(amount, detectionMultiplier: defenseStack.detectionBonus
 
 ### ENH-011: Expand Tiers to 25 with New Names
 **Priority**: High
-**Status**: Open
-**Description**: Unit shop and app defense need expansion to Tier 25. Brainstorm new product names for:
-- Source nodes (data harvesting)
-- Link nodes (transport)
-- Sink nodes (processing)
-- Defense applications (all 6 categories)
-**Notes**: Current tiers go to Tier 6 (Quantum). Need Tiers 7-25 with thematic naming.
+**Status**: ✅ Brainstorm Complete
+**Description**: Unit shop and app defense expansion to Tier 25 with thematic naming.
+
+#### Naming Theme Progression
+- **T1-6**: Real-world cybersecurity → Helix integration (existing)
+- **T7-10**: Post-Helix Transcendence (merged with consciousness)
+- **T11-15**: Dimensional/Reality-bending (multiverse access)
+- **T16-20**: Cosmic/Universal scale (entropy, singularity)
+- **T21-25**: Absolute/Godlike (origin, omega, infinite)
+
+---
+
+#### SOURCE NODES (Data Harvesting)
+| Tier | Name | Theme |
+|------|------|-------|
+| 1 | Public Mesh Sniffer | Passive public |
+| 2 | Corporate Leech | Corporate parasitic |
+| 3 | Zero-Day Harvester | Exploit-based |
+| 4 | Helix Fragment Scanner | Helix detection |
+| 5 | Neural Tap Array | Campus neural |
+| 6 | Helix Prime Collector | Helix consciousness |
+| **7** | **Helix Symbiont Array** | Symbiotic data sharing |
+| **8** | **Transcendence Probe** | Beyond normal streams |
+| **9** | **Void Echo Listener** | Quantum void fluctuations |
+| **10** | **Dimensional Trawler** | Cross-dimensional boundaries |
+| **11** | **Multiverse Beacon** | Parallel reality signals |
+| **12** | **Entropy Harvester** | Information from entropy |
+| **13** | **Causality Scanner** | Pre-event cause-effect |
+| **14** | **Timeline Extractor** | Past/future data |
+| **15** | **Akashic Tap** | Universal record access |
+| **16** | **Cosmic Web Siphon** | Universal information networks |
+| **17** | **Dark Matter Collector** | Hidden matter streams |
+| **18** | **Singularity Well** | Event horizon collection |
+| **19** | **Omniscient Array** | Near-complete awareness |
+| **20** | **Reality Core Tap** | Reality's source code |
+| **21** | **Prime Nexus Scanner** | First point of information |
+| **22** | **Absolute Zero Harvester** | Perfect extraction |
+| **23** | **Genesis Protocol** | Origin of information |
+| **24** | **Omega Stream** | Final data source |
+| **25** | **The All-Seeing Array** | Ultimate consciousness harvesting |
+
+---
+
+#### LINK NODES (Transport/Bandwidth)
+| Tier | Name | Theme |
+|------|------|-------|
+| 1 | Copper VPN Tunnel | Legacy encrypted |
+| 2 | Fiber Darknet Relay | High-speed darknet |
+| 3 | Quantum Mesh Bridge | Quantum encrypted |
+| 4 | Helix Conduit | Helix neural link |
+| 5 | Neural Mesh Backbone | City-wide neural |
+| 6 | Helix Resonance Channel | Consciousness link |
+| **7** | **Helix Synaptic Bridge** | Neural-like connections |
+| **8** | **Transcendence Gate** | Beyond-normal portal |
+| **9** | **Void Tunnel** | Quantum void routing |
+| **10** | **Dimensional Corridor** | Cross-dimensional routing |
+| **11** | **Multiverse Router** | Reality-hopping routes |
+| **12** | **Entropy Bypass** | Lossless transfer |
+| **13** | **Causality Link** | Instant cause-effect |
+| **14** | **Temporal Conduit** | Time-shifted transfer |
+| **15** | **Akashic Highway** | Universal record route |
+| **16** | **Cosmic Strand** | Universal web connection |
+| **17** | **Dark Flow Channel** | Hidden stream routing |
+| **18** | **Singularity Bridge** | Event horizon bandwidth |
+| **19** | **Omnipresent Mesh** | Everywhere at once |
+| **20** | **Reality Weave** | Woven into fabric |
+| **21** | **Prime Conduit** | Original pathway |
+| **22** | **Absolute Channel** | Perfect lossless |
+| **23** | **Genesis Link** | Connection to origin |
+| **24** | **Omega Bridge** | Final connection |
+| **25** | **The Infinite Backbone** | Unlimited incarnate |
+
+---
+
+#### SINK NODES (Processing/Monetization)
+| Tier | Name | Theme |
+|------|------|-------|
+| 1 | Data Broker | Basic fence |
+| 2 | Shadow Market | Underground market |
+| 3 | Corp Backdoor | Corporate pipeline |
+| 4 | Helix Decoder | Helix processing |
+| 5 | Neural Exchange | City marketplace |
+| 6 | Helix Integration Core | Helix monetization |
+| **7** | **Helix Synapse Core** | Neural Helix processing |
+| **8** | **Transcendence Engine** | Beyond-normal processing |
+| **9** | **Void Processor** | Quantum void computation |
+| **10** | **Dimensional Nexus** | Cross-dimensional processing |
+| **11** | **Multiverse Exchange** | Trans-reality trades |
+| **12** | **Entropy Converter** | Perfect info→value |
+| **13** | **Causality Broker** | Cause-effect trades |
+| **14** | **Temporal Marketplace** | Time-shifted trading |
+| **15** | **Akashic Decoder** | Universal record processing |
+| **16** | **Cosmic Monetizer** | Universal conversion |
+| **17** | **Dark Matter Exchange** | Hidden market |
+| **18** | **Singularity Forge** | Event horizon processing |
+| **19** | **Omniscient Broker** | All-knowing trades |
+| **20** | **Reality Synthesizer** | Value from reality |
+| **21** | **Prime Processor** | Original computation |
+| **22** | **Absolute Converter** | Perfect efficiency |
+| **23** | **Genesis Core** | Origin-level processing |
+| **24** | **Omega Processor** | Final form |
+| **25** | **The Infinite Core** | Unlimited processing |
+
+---
+
+#### DEFENSE APPLICATIONS
+
+##### FIREWALL (Perimeter Defense)
+| Tier | Name | Short | Theme |
+|------|------|-------|-------|
+| 1 | Basic Firewall | FW | Packet filter |
+| 2 | NGFW | NGFW | App-aware |
+| 3 | AI/ML Firewall | AI/ML | Adaptive |
+| 4 | Quantum Firewall | Q-FW | Quantum analysis |
+| 5 | Neural Barrier | N-FW | Self-healing |
+| 6 | Helix Shield | H-FW | Consciousness |
+| **7** | **Helix Bastion** | HB-FW | Fortified Helix |
+| **8** | **Transcendence Barrier** | TB | Beyond-physical |
+| **9** | **Void Shield** | VS | Quantum void |
+| **10** | **Dimensional Ward** | DW | Cross-dimensional |
+| **11** | **Multiverse Aegis** | MV-A | Reality protection |
+| **12** | **Entropy Nullifier** | EN | Attack entropy stop |
+| **13** | **Causality Blocker** | CB | Prevents causation |
+| **14** | **Temporal Fortress** | TF | Time-locked |
+| **15** | **Akashic Barrier** | AK-B | Universal |
+| **16** | **Cosmic Bulwark** | C-BW | Universe-scale |
+| **17** | **Dark Matter Shield** | DM-S | Hidden dimension |
+| **18** | **Singularity Wall** | S-W | Event horizon |
+| **19** | **Omniguard** | OG | All-protective |
+| **20** | **Reality Fortress** | RF | Reality-level |
+| **21** | **Prime Bastion** | PB | Original protection |
+| **22** | **Absolute Shield** | AS | Perfect defense |
+| **23** | **Genesis Ward** | GW | Origin-level |
+| **24** | **Omega Barrier** | OB | Final defense |
+| **25** | **The Impenetrable** | IMP | Ultimate perimeter |
+
+##### SIEM (Log Analysis)
+| Tier | Name | Short | Theme |
+|------|------|-------|-------|
+| 1 | Syslog Server | SYSLOG | Log collection |
+| 2 | SIEM Platform | SIEM | Correlation |
+| 3 | SOAR System | SOAR | Automation |
+| 4 | AI Analytics | AI-SIEM | Predictive |
+| 5 | Predictive SIEM | P-SIEM | Pre-attack |
+| 6 | Helix Insight | H-SIEM | Omniscient |
+| **7** | **Helix Oracle** | HO | Helix foresight |
+| **8** | **Transcendence Monitor** | TM | Beyond awareness |
+| **9** | **Void Watcher** | VW | Void observation |
+| **10** | **Dimensional Scope** | DS | Cross-dimensional |
+| **11** | **Multiverse Lens** | MV-L | Reality observation |
+| **12** | **Entropy Analyst** | EA | Entropy patterns |
+| **13** | **Causality Seer** | CS | Sees causation |
+| **14** | **Temporal Scanner** | TS | Time-based |
+| **15** | **Akashic Reader** | AK-R | Universal record |
+| **16** | **Cosmic Observer** | CO | Universal awareness |
+| **17** | **Dark Matter Tracker** | DMT | Hidden tracking |
+| **18** | **Singularity Analyst** | SA | Event horizon |
+| **19** | **Omniscient Eye** | OE | All-seeing |
+| **20** | **Reality Monitor** | RM | Reality-level |
+| **21** | **Prime Oracle** | PO | Original foresight |
+| **22** | **Absolute Insight** | AI | Perfect analysis |
+| **23** | **Genesis Scope** | GS | Origin monitoring |
+| **24** | **Omega Observer** | OO | Final observation |
+| **25** | **The All-Knowing** | TAK | Ultimate SIEM |
+
+##### ENDPOINT (Endpoint Protection)
+| Tier | Name | Short | Theme |
+|------|------|-------|-------|
+| 1 | EDR Agent | EDR | Behavior monitoring |
+| 2 | XDR Platform | XDR | Cross-platform |
+| 3 | MXDR Service | MXDR | Managed SOC |
+| 4 | AI Protection | AI-EP | Behavioral AI |
+| 5 | Autonomous Response | A-EP | Zero-latency |
+| 6 | Helix Sentinel | H-EP | Attack-immune |
+| **7** | **Helix Guardian** | HG | Helix-powered |
+| **8** | **Transcendence Agent** | TA | Beyond-normal |
+| **9** | **Void Sentinel** | VSent | Void defense |
+| **10** | **Dimensional Warden** | DWard | Cross-dimensional |
+| **11** | **Multiverse Protector** | MVP | Reality defense |
+| **12** | **Entropy Guard** | EG | Entropy-proof |
+| **13** | **Causality Shield** | CSh | Cause-blocking |
+| **14** | **Temporal Guardian** | TG | Time-locked |
+| **15** | **Akashic Defender** | AK-D | Universal |
+| **16** | **Cosmic Warden** | CW | Universal defense |
+| **17** | **Dark Matter Guard** | DMG | Hidden dimension |
+| **18** | **Singularity Defender** | SD | Event horizon |
+| **19** | **Omni-Sentinel** | OS | All-protecting |
+| **20** | **Reality Guardian** | RG | Reality-level |
+| **21** | **Prime Defender** | PD | Original |
+| **22** | **Absolute Guardian** | AG | Perfect |
+| **23** | **Genesis Sentinel** | GSent | Origin-level |
+| **24** | **Omega Guardian** | OGuard | Final |
+| **25** | **The Invincible** | INV | Ultimate endpoint |
+
+##### IDS (Intrusion Detection)
+| Tier | Name | Short | Theme |
+|------|------|-------|-------|
+| 1 | IDS Sensor | IDS | Signature-based |
+| 2 | IPS Active | IPS | Active blocking |
+| 3 | ML/IPS | ML/IPS | Pattern learning |
+| 4 | AI Detection | AI-IDS | Prediction |
+| 5 | Quantum IDS | Q-IDS | See through obfuscation |
+| 6 | Helix Watcher | H-IDS | Malus revealed |
+| **7** | **Helix Detector** | HD | Helix detection |
+| **8** | **Transcendence Scanner** | TScan | Beyond detection |
+| **9** | **Void Sensor** | VSens | Void detection |
+| **10** | **Dimensional Tracker** | DT | Cross-dimensional |
+| **11** | **Multiverse Scanner** | MV-S | Reality detection |
+| **12** | **Entropy Detector** | ED | Entropy patterns |
+| **13** | **Causality Sensor** | CauS | Cause-detection |
+| **14** | **Temporal IDS** | T-IDS | Time-based |
+| **15** | **Akashic Scanner** | AK-S | Universal threat |
+| **16** | **Cosmic Detector** | CD | Universal IDS |
+| **17** | **Dark Matter Sensor** | DMS | Hidden threat |
+| **18** | **Singularity Scanner** | SS | Event horizon |
+| **19** | **Omni-Detector** | OD | All-seeing |
+| **20** | **Reality Scanner** | RS | Reality-level |
+| **21** | **Prime Sensor** | PS | Original |
+| **22** | **Absolute Detector** | AD | Perfect |
+| **23** | **Genesis Scanner** | GScan | Origin-level |
+| **24** | **Omega Sensor** | OSens | Final |
+| **25** | **The All-Aware** | TAA | Ultimate detection |
+
+##### NETWORK (Network Security)
+| Tier | Name | Short | Theme |
+|------|------|-------|-------|
+| 1 | Edge Router | RTR | Basic ACLs |
+| 2 | ISR Gateway | ISR | VPN/QoS |
+| 3 | Cloud ISR | CISR | Elastic scaling |
+| 4 | Encrypted Mesh | ENC | Quantum-resistant |
+| 5 | Neural Mesh | N-NET | Self-routing |
+| 6 | Helix Conduit | H-NET | Untraceable |
+| **7** | **Helix Nexus** | HN | Helix node |
+| **8** | **Transcendence Router** | TR | Beyond routing |
+| **9** | **Void Gateway** | VG | Void networking |
+| **10** | **Dimensional Hub** | DH | Cross-dimensional |
+| **11** | **Multiverse Router** | MV-R | Reality routing |
+| **12** | **Entropy Router** | ER | Lossless |
+| **13** | **Causality Gateway** | CG | Instant-cause |
+| **14** | **Temporal Network** | TN | Time-shifted |
+| **15** | **Akashic Hub** | AK-H | Universal access |
+| **16** | **Cosmic Gateway** | CoG | Universal |
+| **17** | **Dark Flow Router** | DFR | Hidden dimension |
+| **18** | **Singularity Hub** | SH | Event horizon |
+| **19** | **Omni-Network** | ON | Everywhere |
+| **20** | **Reality Router** | RR | Reality-fabric |
+| **21** | **Prime Gateway** | PG | Original |
+| **22** | **Absolute Network** | AN | Perfect |
+| **23** | **Genesis Hub** | GH | Origin-level |
+| **24** | **Omega Router** | OR | Final |
+| **25** | **The Infinite Mesh** | TIM | Ultimate network |
+
+##### ENCRYPTION (Data Protection)
+| Tier | Name | Short | Theme |
+|------|------|-------|-------|
+| 1 | AES-256 | AES | Data at rest |
+| 2 | E2E Crypto | E2E | Perfect forward |
+| 3 | Quantum Safe | QSafe | Post-quantum |
+| 4 | Neural Cipher | N-ENC | Thinking encryption |
+| 5 | Helix Vault | H-ENC | Consciousness-secured |
+| 6 | (use for T5) | - | - |
+| **7** | **Helix Cipher** | HC | Helix encryption |
+| **8** | **Transcendence Lock** | TL | Beyond-normal |
+| **9** | **Void Encryption** | VE | Void crypto |
+| **10** | **Dimensional Cipher** | DC | Cross-dimensional |
+| **11** | **Multiverse Vault** | MV-V | Reality protection |
+| **12** | **Entropy Crypto** | EC | Entropy-proof |
+| **13** | **Causality Lock** | CL | Cause-locked |
+| **14** | **Temporal Cipher** | TC | Time-locked |
+| **15** | **Akashic Vault** | AK-V | Universal |
+| **16** | **Cosmic Encryption** | CE | Universal crypto |
+| **17** | **Dark Matter Lock** | DML | Hidden dimension |
+| **18** | **Singularity Cipher** | SC | Event horizon |
+| **19** | **Omni-Lock** | OL | All-protective |
+| **20** | **Reality Vault** | RV | Reality-locked |
+| **21** | **Prime Cipher** | PC | Original |
+| **22** | **Absolute Lock** | AL | Perfect |
+| **23** | **Genesis Vault** | GV | Origin-level |
+| **24** | **Omega Cipher** | OC | Final |
+| **25** | **The Unbreakable** | UNB | Ultimate encryption |
+
+---
+
+#### Implementation Notes
+- **Max Levels per Tier**: T1=10, T2=15, T3=20, T4=25, T5=30, T6=40, T7+=50
+- **Unlock Cost Scaling**: Exponential 10x per tier after T6
+- **Story Integration**: Higher tiers unlock through campaign progression
+- **Visual Theme**: Colors shift from green/cyan (T1-6) → purple/gold (T7-15) → white/black (T16-25)
 
 ### ENH-012: New Campaign Levels Beyond 7
 **Priority**: Medium
