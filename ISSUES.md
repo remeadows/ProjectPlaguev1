@@ -1166,9 +1166,27 @@ The original black site created not one AI, but SEVEN. Malus was just the first 
 **Closed**: 2026-01-19
 
 ### ENH-004: Custom Sound Pack
-**Status**: ✅ Closed
-**Resolution**: Changed system sounds to cyberpunk-themed electronic tones. Added procedural ambient synth drone generator using AVAudioEngine.
-**Closed**: 2026-01-19
+**Status**: 🔴 Reopened
+**Priority**: High
+**Previous Resolution**: Changed system sounds to cyberpunk-themed electronic tones. Added procedural ambient synth drone generator using AVAudioEngine.
+**Previously Closed**: 2026-01-19
+
+**Reopened**: 2026-01-28
+**Reason**: Sound quality is terrible on iPhone 16 Pro Max (iOS 26.2.1)
+
+**User Feedback**:
+- Testing on physical device reveals poor audio quality
+- Needs investigation and improvement
+
+**TODO**:
+- [ ] Test on physical device to reproduce issue
+- [ ] Identify specific sounds that are problematic (SFX, ambient, haptics?)
+- [ ] Check audio file formats, bitrates, sample rates
+- [ ] Review AVAudioEngine configuration
+- [ ] Consider replacing procedural audio with pre-recorded assets
+- [ ] Test across multiple device types
+
+**Files**: `Engine/AudioManager.swift`
 
 ---
 
