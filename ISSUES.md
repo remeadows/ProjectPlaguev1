@@ -257,44 +257,203 @@ malusIntel.addFootprint(amount, detectionMultiplier: defenseStack.detectionBonus
 ## 🟡 Minor (Polish/UX)
 
 ### ISSUE-012: Level Dialog Goal Accuracy
-**Status**: 🟡 Open
+**Status**: 🟠 Open → Ready to Fix
 **Severity**: Minor
 **Description**: Dialog text shows incorrect goal requirements. Example: Level 1 dialog says it takes 2,000 credits to complete, but actual requirement differs per CLAUDE.md (Level 1 = 50K credits).
 **Impact**: Confusing for players; undermines trust in game instructions.
-**Solution**: Audit all level dialogs and correct goal text to match actual requirements in code.
-**Files**: `Views/` (dialog-related views), Lore/Story text files
+
+**Root Cause**:
+`StorySystem.swift:172` - Level 1 intro dialog says:
+```swift
+.init("Earn ₵2,000 and reach 50 Defense Points. We'll talk soon.", mood: .encouraging)
+```
+
+But `LevelDatabase.swift` defines Level 1 victory requirement as:
+```swift
+requiredCredits: 50000,  // 50K, not 2K
+```
+
+**Solution**:
+Update `StorySystem.swift:172` to match actual requirement:
+```swift
+.init("Earn ₵50,000 and reach 50 Defense Points. We'll talk soon.", mood: .encouraging)
+```
+
+Also audit other level intro dialogs for accuracy:
+- Level 2 dialog (line ~203): Check if "₵10,000" matches `requiredCredits: 100000`
+- Level 3-7 dialogs: Verify all credit/DP goals match `LevelDatabase.swift`
+
+**Files**: `Models/StorySystem.swift:172,203,249,295,341,387,432`
 
 ### ISSUE-013: Achievement Rewards - Are They Instant?
-**Status**: 🟡 Open
+**Status**: ✅ Closed (Verified - Working as Intended)
 **Severity**: Minor
 **Description**: Unclear whether achievement rewards are granted instantly upon completion or require manual claim.
 **Impact**: UX confusion; need to verify and document expected behavior.
-**Solution**: Investigate current implementation and decide on intended behavior.
-**Files**: `Models/MilestoneSystem.swift`, `Engine/GameEngine.swift`
+
+**Root Cause Analysis**:
+Rewards ARE instant. No manual claim required.
+
+`GameEngine.swift:714-724`:
+```swift
+private func checkMilestones() {
+    let completable = MilestoneDatabase.checkProgress(state: milestoneState)
+    for milestone in completable {
+        milestoneState.complete(milestone.id)
+        emitEvent(.milestoneCompleted(milestone.title))
+        AudioManager.shared.playSound(.milestone)
+        applyMilestoneReward(milestone.reward)  // ← Instant application
+    }
+}
+```
+
+`applyMilestoneReward()` (line 727-745) immediately:
+- Adds credits: `resources.addCredits(amount)`
+- Unlocks lore: `unlockLoreFragment(fragmentId)`
+- Unlocks units: `unlockState.unlock(unitId)`
+
+**Verdict**: Working as intended. Consider adding UI feedback showing reward granted.
+**Files**: `Engine/GameEngine.swift:714-745`
+**Closed**: 2026-01-28
 
 ### ISSUE-014: Total Playtime Not Displaying
-**Status**: 🟡 Open
+**Status**: 🟠 Open → Ready to Fix
 **Severity**: Minor
 **Description**: Total playtime statistic is not showing in the stats/lifetime stats view.
 **Impact**: Players cannot see how long they've played the game.
-**Solution**: Ensure playtime is being tracked and displayed correctly in stats UI.
-**Files**: `Engine/GameEngine.swift`, `Views/` (stats views)
 
-### ISSUE-015: Tier Requirements Display Incorrect
-**Status**: 🟡 Open
+**Root Cause**:
+`lifetimeStats.totalPlaytimeTicks` is NEVER updated anywhere in the codebase.
+
+`CampaignProgress.swift:101-108` updates other lifetime stats on level completion:
+```swift
+// Update lifetime stats
+lifetimeStats.totalCreditsEarned += stats.creditsEarned
+lifetimeStats.totalAttacksSurvived += stats.attacksSurvived
+lifetimeStats.totalDamageBlocked += stats.damageBlocked
+lifetimeStats.totalLevelsCompleted += 1
+// ❌ MISSING: lifetimeStats.totalPlaytimeTicks += stats.ticksToComplete
+```
+
+The `playtimeFormatted` property (`CampaignProgress.swift:182-190`) always shows "0m" because `totalPlaytimeTicks` is always 0.
+
+**Solution**:
+Add playtime update in `CampaignProgress.swift:105`:
+```swift
+lifetimeStats.totalPlaytimeTicks += stats.ticksToComplete  // Add this line
+lifetimeStats.totalLevelsCompleted += 1
+```
+
+Note: `LevelCompletionStats` already has `ticksToComplete` tracked at `CampaignLevel.swift:211`.
+
+**Files**: `Models/CampaignProgress.swift:105` (add one line)
+
+### ISSUE-015: Tier Requirements Display Unclear
+**Status**: 🟠 Open → UX Enhancement
 **Severity**: Minor
-**Description**: The requirements shown for purchasing next tier of Source, Link, and Sink nodes incorrectly mentions "Target level". Threat level has nothing to do with tier unlocks.
-**Impact**: Misleading UI text; players don't understand actual unlock requirements.
-**Solution**: Update tier requirement text to show correct unlock conditions (max level of current tier).
-**Files**: `Views/UnitShopView.swift`
+**Description**: Tier gate requirements only shown AFTER user attempts to unlock. Display is reactive, not proactive. Players don't see they need to max current tier level before next tier unlocks.
+**Impact**: Confusing UX; players don't understand unlock requirements until they fail.
 
-### ISSUE-016: Analyze Lifetime Stats
-**Status**: 🟡 Open
+**Root Cause Analysis**:
+
+1. **Tier Gate Logic** (`GameEngine.swift:841-866`):
+```swift
+func isTierGateSatisfied(for unitInfo: UnitFactory.UnitInfo) -> Bool {
+    // Checks if previous tier is at max level
+    return source.tier.rawValue >= previousTier.rawValue && source.isAtMaxLevel
+}
+```
+
+2. **Gate Reason Display** (`GameEngine.swift:868-897`):
+```swift
+func tierGateReason(for unitInfo: UnitFactory.UnitInfo) -> String? {
+    // Returns "T1 Source must be at max level (10)"
+}
+```
+
+3. **Unit Cards** show "MAX" badge when at max (`NodeCardView.swift:133,273,405`):
+```swift
+if source.isAtMaxLevel {
+    Text("MAX").font(.terminalMicro).foregroundColor(.neonAmber)
+}
+```
+
+**Current UX Flow**:
+- User sees locked T2 unit in shop
+- User tries to unlock
+- THEN sees "T1 Source must be at max level (10)"
+- User has to figure out their current level
+
+**Solution Proposal**:
+1. Show current level / max level on equipped unit cards: "Level 5/10"
+2. Show progress bar toward max level
+3. In unit shop, show gate status proactively: "Unlock at T1 Level 10 (current: 5)"
+4. Add visual indicator when current tier can unlock next tier
+
+**Files**:
+- `Views/Components/NodeCardView.swift` - Add level progress display
+- `Views/UnitShopView.swift` - Show proactive gate requirements
+
+### ISSUE-016: Lifetime Stats Analysis
+**Status**: 🟠 Open → Multiple Issues Found
 **Severity**: Minor
 **Description**: Review and analyze lifetime stats implementation. Ensure all relevant stats are being tracked and displayed accurately.
 **Impact**: Analytics and player engagement features.
-**Solution**: Audit lifetime stats tracking and display.
-**Files**: `Engine/GameEngine.swift`, Stats views
+
+**Root Cause Analysis**:
+
+`LifetimeStats` struct (`CampaignProgress.swift:173-191`):
+```swift
+struct LifetimeStats: Codable {
+    var totalCreditsEarned: Double = 0       // ✅ Updated on completion
+    var totalAttacksSurvived: Int = 0        // ✅ Updated on completion
+    var totalDamageBlocked: Double = 0       // ✅ Updated on completion
+    var totalPlaytimeTicks: Int = 0          // ❌ NEVER updated
+    var totalLevelsCompleted: Int = 0        // ✅ Updated on completion
+    var totalInsaneLevelsCompleted: Int = 0  // ✅ Updated on completion
+    var totalDeaths: Int = 0                 // ✅ Updated on failure
+}
+```
+
+**Issues Found**:
+
+1. **`totalPlaytimeTicks` never updated** (see ISSUE-014)
+   - Fix: Add `lifetimeStats.totalPlaytimeTicks += stats.ticksToComplete`
+
+2. **Stats only update on level COMPLETION**
+   - If player quits mid-level, progress not recorded
+   - Credits earned, attacks survived during failed attempts not tracked
+   - `recordFailure()` only increments `totalDeaths`
+
+3. **Missing useful stats**:
+   - Total intel reports sent (important metric)
+   - Total data harvested (raw amount before processing)
+   - Highest defense points achieved
+   - Total upgrades purchased
+
+**Solution**:
+
+1. Fix playtime tracking (ISSUE-014)
+
+2. Consider tracking partial progress on failure:
+```swift
+mutating func recordFailure(_ levelId: Int, partialStats: PartialLevelStats) {
+    lifetimeStats.totalDeaths += 1
+    lifetimeStats.totalPlaytimeTicks += partialStats.ticksPlayed
+    lifetimeStats.totalAttacksSurvived += partialStats.attacksSurvived
+    // etc.
+}
+```
+
+3. Add new tracking fields as needed:
+```swift
+var totalIntelReportsSent: Int = 0
+var highestDefensePoints: Int = 0
+```
+
+**Files**:
+- `Models/CampaignProgress.swift:101-108,173-191`
+- `Engine/NavigationCoordinator.swift` (failure handling)
 
 ### ISSUE-002: Connection Line Animation Jank
 **Status**: ✅ Closed
