@@ -1197,6 +1197,32 @@ The original black site created not one AI, but SEVEN. Malus was just the first 
 - [ ] Source or create proper cyberpunk audio assets (.m4a or .wav)
 - [ ] Test on physical device after each fix
 
+**Audio Specifications**:
+
+| Sound Type | Length | Format | Notes |
+|------------|--------|--------|-------|
+| **Background music** | 2-3 min | .m4a (AAC) | Seamless loop, cyberpunk synth pads |
+| **Button clicks** | 50-150ms | .wav | Short, crisp, satisfying |
+| **Milestone/alert** | 1-2 sec | .wav | Normalized volume, not jarring |
+| **Attack warning** | 1-3 sec | .wav | Urgent but not annoying |
+| **Upgrade sound** | 0.5-1 sec | .wav | Positive feedback tone |
+
+**Music Loop Best Practices**:
+- 2-3 minute loop avoids obvious repetition during long sessions
+- Seamless loop point (end blends into beginning)
+- Avoid distinctive moments that reveal the loop
+- Consider layered approach: base drone + dynamic elements based on threat level
+- Cyberpunk theme: subtle synth pads, glitchy textures, low bass hum
+
+**Haptic Patterns**:
+| Action | Haptic Type | iOS API |
+|--------|-------------|---------|
+| Button tap | Light | `.light` or `.selection` |
+| Upgrade | Medium | `.medium` |
+| Milestone | Success | `.success` |
+| Attack incoming | Warning | `.warning` |
+| Damage taken | Heavy | `.heavy` or `.error` |
+
 **Related Issues**: ISSUE-008 (Sound plays when volume off - same root cause)
 
 **Files**: `Engine/AudioManager.swift`
