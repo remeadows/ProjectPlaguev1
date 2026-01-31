@@ -1,5 +1,5 @@
 // Theme.swift
-// ProjectPlague
+// GridWatchZero
 // Cyberpunk terminal aesthetic
 
 import SwiftUI
@@ -22,6 +22,53 @@ extension Color {
     static let dimGreen = Color(red: 0.1, green: 0.4, blue: 0.2)
     static let dimAmber = Color(red: 0.4, green: 0.3, blue: 0.1)
     static let dimRed = Color(red: 0.4, green: 0.15, blue: 0.15)
+
+    // MARK: - Tier Colors (T7-25)
+
+    // Transcendence colors (T7-10) - Purple shades
+    static let transcendencePurple = Color(red: 0.6, green: 0.2, blue: 0.9)
+    static let voidBlue = Color(red: 0.15, green: 0.1, blue: 0.4)
+
+    // Dimensional colors (T11-15) - Purple/Gold
+    static let dimensionalGold = Color(red: 1.0, green: 0.85, blue: 0.3)
+    static let multiversePink = Color(red: 0.9, green: 0.3, blue: 0.6)
+    static let akashicGold = Color(red: 1.0, green: 0.9, blue: 0.4)
+
+    // Cosmic colors (T16-20) - White/Silver
+    static let cosmicSilver = Color(red: 0.85, green: 0.85, blue: 0.92)
+    static let darkMatterPurple = Color(red: 0.3, green: 0.1, blue: 0.4)
+    static let singularityWhite = Color(red: 0.95, green: 0.95, blue: 1.0)
+
+    // Infinite colors (T21-25) - Gold/Black
+    static let infiniteGold = Color(red: 1.0, green: 0.9, blue: 0.5)
+    static let omegaBlack = Color(red: 0.08, green: 0.02, blue: 0.12)
+
+    /// Returns the appropriate SwiftUI Color for a tier color string
+    static func tierColor(named colorName: String) -> Color {
+        switch colorName {
+        // Existing colors
+        case "terminalGray": return .terminalGray
+        case "neonGreen": return .neonGreen
+        case "neonCyan": return .neonCyan
+        case "neonAmber": return .neonAmber
+        case "neonRed": return .neonRed
+        // Transcendence (T7-10)
+        case "transcendencePurple": return .transcendencePurple
+        case "voidBlue": return .voidBlue
+        // Dimensional (T11-15)
+        case "dimensionalGold": return .dimensionalGold
+        case "multiversePink": return .multiversePink
+        case "akashicGold": return .akashicGold
+        // Cosmic (T16-20)
+        case "cosmicSilver": return .cosmicSilver
+        case "darkMatterPurple": return .darkMatterPurple
+        case "singularityWhite": return .singularityWhite
+        // Infinite (T21-25)
+        case "infiniteGold": return .infiniteGold
+        case "omegaBlack": return .omegaBlack
+        default: return .terminalGray
+        }
+    }
 }
 
 // MARK: - Font Theme
@@ -108,15 +155,34 @@ extension View {
 // MARK: - Number Formatting
 
 extension Double {
+    /// Formats large numbers with appropriate suffixes for T1-25 scale
+    /// K = Thousand, M = Million, B = Billion, T = Trillion
+    /// Q = Quadrillion, Qi = Quintillion, Sx = Sextillion, Sp = Septillion
     var formatted: String {
-        if self >= 1_000_000 {
-            return String(format: "%.1fM", self / 1_000_000)
-        } else if self >= 1_000 {
-            return String(format: "%.1fK", self / 1_000)
-        } else if self == floor(self) {
-            return String(format: "%.0f", self)
-        } else {
-            return String(format: "%.1f", self)
+        let absValue = abs(self)
+        let sign = self < 0 ? "-" : ""
+
+        switch absValue {
+        case 1_000_000_000_000_000_000_000_000...:  // Septillion+
+            return sign + String(format: "%.1fSp", absValue / 1_000_000_000_000_000_000_000_000)
+        case 1_000_000_000_000_000_000_000..<1_000_000_000_000_000_000_000_000:  // Sextillion
+            return sign + String(format: "%.1fSx", absValue / 1_000_000_000_000_000_000_000)
+        case 1_000_000_000_000_000_000..<1_000_000_000_000_000_000_000:  // Quintillion
+            return sign + String(format: "%.1fQi", absValue / 1_000_000_000_000_000_000)
+        case 1_000_000_000_000_000..<1_000_000_000_000_000_000:  // Quadrillion
+            return sign + String(format: "%.1fQ", absValue / 1_000_000_000_000_000)
+        case 1_000_000_000_000..<1_000_000_000_000_000:  // Trillion
+            return sign + String(format: "%.1fT", absValue / 1_000_000_000_000)
+        case 1_000_000_000..<1_000_000_000_000:  // Billion
+            return sign + String(format: "%.1fB", absValue / 1_000_000_000)
+        case 1_000_000..<1_000_000_000:  // Million
+            return sign + String(format: "%.1fM", absValue / 1_000_000)
+        case 1_000..<1_000_000:  // Thousand
+            return sign + String(format: "%.1fK", absValue / 1_000)
+        case _ where absValue == floor(absValue):
+            return sign + String(format: "%.0f", absValue)
+        default:
+            return sign + String(format: "%.1f", absValue)
         }
     }
 

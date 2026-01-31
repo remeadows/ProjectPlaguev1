@@ -1,5 +1,5 @@
 // Node.swift
-// ProjectPlague
+// GridWatchZero
 // Protocol-oriented node system for the neural grid
 
 import Foundation
@@ -275,32 +275,104 @@ struct FirewallNode: NodeProtocol {
 // MARK: - Node Tier
 
 enum NodeTier: Int, Codable, CaseIterable {
+    // Real-world cybersecurity (T1-6)
     case tier1 = 1
     case tier2 = 2
     case tier3 = 3
     case tier4 = 4
     case tier5 = 5
     case tier6 = 6
+    // Post-Helix Transcendence (T7-10)
+    case tier7 = 7
+    case tier8 = 8
+    case tier9 = 9
+    case tier10 = 10
+    // Dimensional/Reality-bending (T11-15)
+    case tier11 = 11
+    case tier12 = 12
+    case tier13 = 13
+    case tier14 = 14
+    case tier15 = 15
+    // Cosmic/Universal scale (T16-20)
+    case tier16 = 16
+    case tier17 = 17
+    case tier18 = 18
+    case tier19 = 19
+    case tier20 = 20
+    // Absolute/Godlike (T21-25)
+    case tier21 = 21
+    case tier22 = 22
+    case tier23 = 23
+    case tier24 = 24
+    case tier25 = 25
 
     var name: String {
         switch self {
+        // Real-world cybersecurity (T1-6)
         case .tier1: return "Basic"
         case .tier2: return "Advanced"
         case .tier3: return "Elite"
         case .tier4: return "Helix"
         case .tier5: return "Quantum"
         case .tier6: return "Neural"
+        // Post-Helix Transcendence (T7-10)
+        case .tier7: return "Symbiont"
+        case .tier8: return "Transcendence"
+        case .tier9: return "Void"
+        case .tier10: return "Dimensional"
+        // Dimensional/Reality-bending (T11-15)
+        case .tier11: return "Multiverse"
+        case .tier12: return "Entropy"
+        case .tier13: return "Causality"
+        case .tier14: return "Timeline"
+        case .tier15: return "Akashic"
+        // Cosmic/Universal scale (T16-20)
+        case .tier16: return "Cosmic"
+        case .tier17: return "Dark Matter"
+        case .tier18: return "Singularity"
+        case .tier19: return "Omniscient"
+        case .tier20: return "Reality"
+        // Absolute/Godlike (T21-25)
+        case .tier21: return "Prime"
+        case .tier22: return "Absolute"
+        case .tier23: return "Genesis"
+        case .tier24: return "Omega"
+        case .tier25: return "Infinite"
         }
     }
 
     var color: String {
         switch self {
+        // Real-world cybersecurity - existing colors (T1-6)
         case .tier1: return "terminalGray"
         case .tier2: return "neonGreen"
         case .tier3: return "neonCyan"
         case .tier4: return "neonAmber"
         case .tier5: return "neonRed"
         case .tier6: return "neonAmber"
+        // Post-Helix Transcendence - purple shades (T7-10)
+        case .tier7: return "transcendencePurple"
+        case .tier8: return "transcendencePurple"
+        case .tier9: return "voidBlue"
+        case .tier10: return "dimensionalGold"
+        // Dimensional/Reality-bending - purple/gold (T11-15)
+        case .tier11: return "multiversePink"
+        case .tier12: return "dimensionalGold"
+        case .tier13: return "multiversePink"
+        case .tier14: return "dimensionalGold"
+        case .tier15: return "akashicGold"
+        // Cosmic/Universal scale - white/silver (T16-20)
+        case .tier16: return "cosmicSilver"
+        case .tier17: return "darkMatterPurple"
+        case .tier18: return "singularityWhite"
+        case .tier19: return "cosmicSilver"
+        case .tier20: return "singularityWhite"
+        // Absolute/Godlike - gold/black (T21-25)
+        case .tier21: return "infiniteGold"
+        case .tier22: return "infiniteGold"
+        case .tier23: return "infiniteGold"
+        case .tier24: return "omegaBlack"
+        case .tier25: return "infiniteGold"
         }
     }
 
@@ -314,6 +386,12 @@ enum NodeTier: Int, Codable, CaseIterable {
         case .tier4: return 25
         case .tier5: return 30
         case .tier6: return 40
+        // T7-25 all have max level 50
+        case .tier7, .tier8, .tier9, .tier10,
+             .tier11, .tier12, .tier13, .tier14, .tier15,
+             .tier16, .tier17, .tier18, .tier19, .tier20,
+             .tier21, .tier22, .tier23, .tier24, .tier25:
+            return 50
         }
     }
 
@@ -321,20 +399,90 @@ enum NodeTier: Int, Codable, CaseIterable {
     func isAtMaxLevel(_ level: Int) -> Bool {
         level >= maxLevel
     }
+
+    /// Tier range grouping for UI display
+    var tierGroup: TierGroup {
+        switch self {
+        case .tier1, .tier2, .tier3, .tier4, .tier5, .tier6:
+            return .realWorld
+        case .tier7, .tier8, .tier9, .tier10:
+            return .transcendence
+        case .tier11, .tier12, .tier13, .tier14, .tier15:
+            return .dimensional
+        case .tier16, .tier17, .tier18, .tier19, .tier20:
+            return .cosmic
+        case .tier21, .tier22, .tier23, .tier24, .tier25:
+            return .infinite
+        }
+    }
+}
+
+/// Grouping for tier ranges in UI
+enum TierGroup: String, CaseIterable {
+    case realWorld = "T1-6"
+    case transcendence = "T7-10"
+    case dimensional = "T11-15"
+    case cosmic = "T16-20"
+    case infinite = "T21-25"
+
+    var displayName: String {
+        switch self {
+        case .realWorld: return "Real-World"
+        case .transcendence: return "Transcendence"
+        case .dimensional: return "Dimensional"
+        case .cosmic: return "Cosmic"
+        case .infinite: return "Infinite"
+        }
+    }
+
+    var tiers: [NodeTier] {
+        switch self {
+        case .realWorld: return [.tier1, .tier2, .tier3, .tier4, .tier5, .tier6]
+        case .transcendence: return [.tier7, .tier8, .tier9, .tier10]
+        case .dimensional: return [.tier11, .tier12, .tier13, .tier14, .tier15]
+        case .cosmic: return [.tier16, .tier17, .tier18, .tier19, .tier20]
+        case .infinite: return [.tier21, .tier22, .tier23, .tier24, .tier25]
+        }
+    }
 }
 
 // MARK: - Source Variants (Tiers)
 
 extension SourceNode {
     /// Tier of this source based on base production
+    /// Production thresholds double each tier after T6
     var tier: NodeTier {
         switch baseProduction {
+        // Real-world tiers (T1-6)
         case 0..<15: return .tier1
         case 15..<40: return .tier2
         case 40..<80: return .tier3
         case 80..<150: return .tier4
         case 150..<400: return .tier5
-        default: return .tier6
+        case 400..<800: return .tier6
+        // Transcendence tiers (T7-10) - base doubles each tier
+        case 800..<1_500: return .tier7
+        case 1_500..<3_000: return .tier8
+        case 3_000..<6_000: return .tier9
+        case 6_000..<12_000: return .tier10
+        // Dimensional tiers (T11-15)
+        case 12_000..<25_000: return .tier11
+        case 25_000..<50_000: return .tier12
+        case 50_000..<100_000: return .tier13
+        case 100_000..<200_000: return .tier14
+        case 200_000..<400_000: return .tier15
+        // Cosmic tiers (T16-20)
+        case 400_000..<800_000: return .tier16
+        case 800_000..<1_600_000: return .tier17
+        case 1_600_000..<3_200_000: return .tier18
+        case 3_200_000..<6_400_000: return .tier19
+        case 6_400_000..<12_800_000: return .tier20
+        // Infinite tiers (T21-25)
+        case 12_800_000..<25_600_000: return .tier21
+        case 25_600_000..<51_200_000: return .tier22
+        case 51_200_000..<102_400_000: return .tier23
+        case 102_400_000..<204_800_000: return .tier24
+        default: return .tier25
         }
     }
 
@@ -358,14 +506,39 @@ extension SourceNode {
 
 extension SinkNode {
     /// Tier of this sink based on conversion rate
+    /// Conversion rates increase by 0.5x each tier after T6
     var tier: NodeTier {
         switch conversionRate {
+        // Real-world tiers (T1-6)
         case 0..<1.8: return .tier1
         case 1.8..<2.3: return .tier2
         case 2.3..<2.8: return .tier3
         case 2.8..<3.3: return .tier4
         case 3.3..<4.0: return .tier5
-        default: return .tier6
+        case 4.0..<4.8: return .tier6
+        // Transcendence tiers (T7-10)
+        case 4.8..<5.3: return .tier7
+        case 5.3..<5.8: return .tier8
+        case 5.8..<6.3: return .tier9
+        case 6.3..<6.8: return .tier10
+        // Dimensional tiers (T11-15)
+        case 6.8..<7.3: return .tier11
+        case 7.3..<7.8: return .tier12
+        case 7.8..<8.3: return .tier13
+        case 8.3..<8.8: return .tier14
+        case 8.8..<9.3: return .tier15
+        // Cosmic tiers (T16-20)
+        case 9.3..<9.8: return .tier16
+        case 9.8..<10.3: return .tier17
+        case 10.3..<10.8: return .tier18
+        case 10.8..<11.3: return .tier19
+        case 11.3..<11.8: return .tier20
+        // Infinite tiers (T21-25)
+        case 11.8..<12.3: return .tier21
+        case 12.3..<12.8: return .tier22
+        case 12.8..<13.3: return .tier23
+        case 13.3..<13.8: return .tier24
+        default: return .tier25
         }
     }
 
@@ -389,14 +562,39 @@ extension SinkNode {
 
 extension FirewallNode {
     /// Tier of this firewall based on base health
+    /// Health thresholds increase by 1.5x each tier after T6
     var tier: Int {
         switch baseHealth {
+        // Real-world tiers (T1-6)
         case 0..<150: return 1
         case 150..<400: return 2
         case 400..<700: return 3
         case 700..<900: return 4
         case 900..<1500: return 5
-        default: return 6
+        case 1500..<2500: return 6
+        // Transcendence tiers (T7-10)
+        case 2500..<4000: return 7
+        case 4000..<6000: return 8
+        case 6000..<9000: return 9
+        case 9000..<13500: return 10
+        // Dimensional tiers (T11-15)
+        case 13500..<20000: return 11
+        case 20000..<30000: return 12
+        case 30000..<45000: return 13
+        case 45000..<67500: return 14
+        case 67500..<100000: return 15
+        // Cosmic tiers (T16-20)
+        case 100000..<150000: return 16
+        case 150000..<225000: return 17
+        case 225000..<337500: return 18
+        case 337500..<506250: return 19
+        case 506250..<760000: return 20
+        // Infinite tiers (T21-25)
+        case 760000..<1140000: return 21
+        case 1140000..<1710000: return 22
+        case 1710000..<2565000: return 23
+        case 2565000..<3847500: return 24
+        default: return 25
         }
     }
 

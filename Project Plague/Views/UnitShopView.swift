@@ -1,5 +1,5 @@
 // UnitShopView.swift
-// ProjectPlague
+// GridWatchZero
 // Unit shop for purchasing and equipping units
 
 import SwiftUI
@@ -265,14 +265,7 @@ struct UnitRowView: View {
     let onTap: () -> Void
 
     private var tierColor: Color {
-        switch unit.tier {
-        case .tier1: return .terminalGray
-        case .tier2: return .neonGreen
-        case .tier3: return .neonCyan
-        case .tier4: return .neonAmber
-        case .tier5: return .neonRed
-        case .tier6: return .neonRed
-        }
+        Color.tierColor(named: unit.tier.color)
     }
 
     private var categoryColor: Color {
@@ -413,79 +406,48 @@ struct UnitRowView: View {
         }
     }
 
-    // Stat calculations
+    // Stat calculations - use UnitFactory to get accurate stats
     private func sourceOutput(_ unit: UnitFactory.UnitInfo) -> String {
-        switch unit.id {
-        case "source_t1_mesh_sniffer": return "12/tick"
-        case "source_t2_corp_leech": return "30/tick"
-        case "source_t3_zero_day": return "75/tick"
-        case "source_t4_helix_scanner": return "150/tick"
-        case "source_t5_neural_tap": return "300/tick"
-        case "source_t6_helix_collector": return "750/tick"
-        default: return "?/tick"
+        // Create the unit and get its actual production value
+        if let source = UnitFactory.createSource(fromId: unit.id) {
+            return "\(source.baseProduction.formatted)/tick"
         }
+        return "?/tick"
     }
 
     private func linkBandwidth(_ unit: UnitFactory.UnitInfo) -> String {
-        switch unit.id {
-        case "link_t1_copper_vpn": return "7/tick"
-        case "link_t2_fiber_relay": return "21/tick"
-        case "link_t3_quantum_bridge": return "56/tick"
-        case "link_t4_helix_conduit": return "140/tick"
-        case "link_t5_neural_backbone": return "375/tick"
-        case "link_t6_helix_channel": return "900/tick"
-        default: return "?/tick"
+        if let link = UnitFactory.createLink(fromId: unit.id) {
+            return "\(link.baseBandwidth.formatted)/tick"
         }
+        return "?/tick"
     }
 
     private func sinkProcessing(_ unit: UnitFactory.UnitInfo) -> String {
-        switch unit.id {
-        case "sink_t1_data_broker": return "7.8/tick"
-        case "sink_t2_shadow_market": return "23.4/tick"
-        case "sink_t3_corp_backdoor": return "58.5/tick"
-        case "sink_t4_helix_decoder": return "104/tick"
-        case "sink_t5_neural_exchange": return "270/tick"
-        case "sink_t6_helix_core": return "600/tick"
-        default: return "?/tick"
+        if let sink = UnitFactory.createSink(fromId: unit.id) {
+            return "\(sink.baseProcessingRate.formatted)/tick"
         }
+        return "?/tick"
     }
 
     private func sinkConversion(_ unit: UnitFactory.UnitInfo) -> String {
-        switch unit.id {
-        case "sink_t1_data_broker": return "1.5x"
-        case "sink_t2_shadow_market": return "2.0x"
-        case "sink_t3_corp_backdoor": return "2.5x"
-        case "sink_t4_helix_decoder": return "3.0x"
-        case "sink_t5_neural_exchange": return "3.5x"
-        case "sink_t6_helix_core": return "4.5x"
-        default: return "?x"
+        if let sink = UnitFactory.createSink(fromId: unit.id) {
+            return String(format: "%.1fx", sink.conversionRate)
         }
+        return "?x"
     }
 
     private func defenseHealth(_ unit: UnitFactory.UnitInfo) -> String {
-        switch unit.id {
-        case "defense_t1_basic_firewall": return "150 HP"
-        case "defense_t2_adaptive_ids": return "300 HP"
-        case "defense_t3_neural_counter": return "400 HP"
-        case "defense_t4_quantum_shield": return "600 HP"
-        case "defense_t5_neural_mesh": return "1000 HP"
-        case "defense_t5_predictive": return "800 HP"
-        case "defense_t6_helix_guardian": return "2000 HP"
-        default: return "? HP"
+        if let firewall = UnitFactory.createFirewall(fromId: unit.id) {
+            return "\(Int(firewall.maxHealth)) HP"
         }
+        return "? HP"
     }
 
     private func defenseReduction(_ unit: UnitFactory.UnitInfo) -> String {
-        switch unit.id {
-        case "defense_t1_basic_firewall": return "25%"
-        case "defense_t2_adaptive_ids": return "35%"
-        case "defense_t3_neural_counter": return "40%"
-        case "defense_t4_quantum_shield": return "50%"
-        case "defense_t5_neural_mesh": return "60%"
-        case "defense_t5_predictive": return "55%"
-        case "defense_t6_helix_guardian": return "70%"
-        default: return "?%"
+        if let firewall = UnitFactory.createFirewall(fromId: unit.id) {
+            return "\(Int(firewall.damageReduction * 100))%"
         }
+        return "?%"
     }
 }
 

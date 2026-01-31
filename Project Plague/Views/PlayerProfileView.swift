@@ -1,5 +1,5 @@
 // PlayerProfileView.swift
-// ProjectPlague
+// GridWatchZero
 // Player profile with lifetime stats and iCloud sync status
 
 import SwiftUI
@@ -9,9 +9,11 @@ import SwiftUI
 struct PlayerProfileView: View {
     @ObservedObject var campaignState: CampaignState
     @StateObject private var cloudManager = CloudSaveManager.shared
+    @StateObject private var certificateManager = CertificateManager.shared
     @State private var showSyncConfirm = false
     @State private var showResetConfirm = false
     @State private var isRefreshing = false
+    @State private var showCertificatesView = false
 
     @Environment(\.dismiss) private var dismiss
 
@@ -30,6 +32,9 @@ struct PlayerProfileView: View {
 
                     // Campaign progress
                     campaignProgressSection
+
+                    // Certificates section
+                    certificatesSection
 
                     // Lifetime stats
                     lifetimeStatsSection
@@ -230,35 +235,37 @@ struct PlayerProfileView: View {
                     ProfileStatCell(
                         value: "\(campaignState.progress.completedLevels.count)",
                         label: "Levels",
-                        sublabel: "of 7",
+                        sublabel: "of 20",
                         color: .neonGreen
                     )
 
                     ProfileStatCell(
                         value: "\(campaignState.progress.insaneCompletedLevels.count)",
                         label: "Insane",
-                        sublabel: "of 7",
+                        sublabel: "of 20",
                         color: .neonRed
                     )
 
                     ProfileStatCell(
                         value: "\(campaignState.progress.totalStars)",
                         label: "Stars",
-                        sublabel: "of 21",
+                        sublabel: "of 60",
                         color: .neonAmber
                     )
                 }
 
-                // Best grades
+                // Best grades - scrollable for 20 levels
                 if !campaignState.progress.levelStats.isEmpty {
-                    HStack(spacing: 8) {
-                        ForEach(1...7, id: \.self) { levelId in
-                            if let stats = campaignState.progress.levelStats[levelId] {
-                                GradeBadge(level: levelId, grade: stats.grade)
-                            } else if campaignState.isLevelUnlocked(levelId) {
-                                GradeBadge(level: levelId, grade: nil)
-                            } else {
-                                LockedBadge(level: levelId)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 6) {
+                            ForEach(1...20, id: \.self) { levelId in
+                                if let stats = campaignState.progress.levelStats[levelId] {
+                                    GradeBadge(level: levelId, grade: stats.grade)
+                                } else if campaignState.isLevelUnlocked(levelId) {
+                                    GradeBadge(level: levelId, grade: nil)
+                                } else {
+                                    LockedBadge(level: levelId)
+                                }
                             }
                         }
                     }
@@ -267,6 +274,45 @@ struct PlayerProfileView: View {
             .padding(16)
             .background(Color.terminalDarkGray)
             .cornerRadius(4)
+        }
+    }
+
+    // MARK: - Certificates Section
+
+    private var certificatesSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            SectionHeader(title: "CERTIFICATIONS", icon: "checkmark.seal.fill")
+
+            VStack(spacing: 12) {
+                // Summary badge
+                CertificateSummaryBadge(certificateManager: certificateManager)
+
+                // View all button
+                Button {
+                    showCertificatesView = true
+                } label: {
+                    HStack {
+                        Text("View All Certificates")
+                            .font(.terminalBody)
+                            .foregroundColor(.neonCyan)
+
+                        Spacer()
+
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.neonCyan.opacity(0.5))
+                    }
+                    .padding(14)
+                    .background(Color.terminalDarkGray)
+                    .cornerRadius(4)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4)
+                            .stroke(Color.neonCyan.opacity(0.3), lineWidth: 1)
+                    )
+                }
+            }
+        }
+        .sheet(isPresented: $showCertificatesView) {
+            CertificatesFullView(certificateManager: certificateManager)
         }
     }
 

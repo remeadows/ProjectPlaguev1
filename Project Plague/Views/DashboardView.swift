@@ -1,5 +1,5 @@
 // DashboardView.swift
-// ProjectPlague
+// GridWatchZero
 // Main game dashboard showing the neural grid network
 
 import SwiftUI
@@ -18,6 +18,7 @@ struct DashboardView: View {
     @State private var showingOfflineProgress = false
     @State private var showingPrestige = false
     @State private var showingCriticalAlarm = false
+    @State private var showingSettings = false
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -184,6 +185,9 @@ struct DashboardView: View {
         }
         .sheet(isPresented: $showingMilestones) {
             MilestonesView(engine: engine)
+        }
+        .sheet(isPresented: $showingSettings) {
+            SettingsView()
         }
         .sheet(isPresented: $showingOfflineProgress) {
             if let progress = engine.offlineProgress {
@@ -1001,6 +1005,7 @@ struct DashboardView: View {
                 onShop: { showingShop = true },
                 onLore: { showingLore = true },
                 onMilestones: { showingMilestones = true },
+                onSettings: { showingSettings = true },
                 campaignLevelId: engine.levelConfiguration?.level.id,
                 campaignLevelName: engine.levelConfiguration?.level.name,
                 isInsaneMode: engine.levelConfiguration?.isInsane ?? false,
@@ -1282,7 +1287,7 @@ struct DashboardView: View {
             // Main header row
             HStack(spacing: 12) {
                 // Title
-                Text("PROJECT PLAGUE")
+                Text("GRID WATCH ZERO")
                     .font(.terminalTitle)
                     .foregroundColor(.neonGreen)
                     .glow(.neonGreen, radius: 4)
@@ -1688,13 +1693,8 @@ struct ThreatStatsView: View {
     }
 
     private var threatLevelColor: Color {
-        switch threatState.currentLevel {
-        case .ghost: return .dimGreen
-        case .blip: return .neonGreen
-        case .signal: return .neonCyan
-        case .target, .priority: return .neonAmber
-        case .hunted, .marked, .targeted, .hammered, .critical: return .neonRed
-        }
+        // Use the tier color from Theme.swift for all threat levels
+        Color.tierColor(named: threatState.currentLevel.color)
     }
 
     private var malusStatus: String {
@@ -1709,15 +1709,26 @@ struct ThreatStatsView: View {
         case .targeted: return "COORDINATED"
         case .hammered: return "OVERWHELMING"
         case .critical: return "TOTAL WAR"
+        // Transcendence Era (Campaign 8-10)
+        case .ascended: return "TRANSCENDING"
+        case .symbiont: return "SYMBIOTIC"
+        case .transcendent: return "BEYOND"
+        // Dimensional Era (Campaign 11-14)
+        case .unknown: return "UNKNOWN"
+        case .dimensional: return "DIMENSIONAL"
+        case .cosmic: return "COSMIC"
+        // Cosmic Era (Campaign 15-18)
+        case .paradox: return "PARADOX"
+        case .primordial: return "PRIMORDIAL"
+        case .infinite: return "INFINITE"
+        // Omega Era (Campaign 19-20)
+        case .omega: return "OMEGA"
         }
     }
 
     private var malusColor: Color {
-        switch threatState.currentLevel {
-        case .ghost, .blip: return .terminalGray
-        case .signal, .target: return .neonAmber
-        case .priority, .hunted, .marked, .targeted, .hammered, .critical: return .neonRed
-        }
+        // Use the tier color from Theme.swift for all threat levels
+        Color.tierColor(named: threatState.currentLevel.color)
     }
 }
 

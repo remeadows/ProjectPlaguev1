@@ -1,5 +1,5 @@
 // NavigationCoordinator.swift
-// ProjectPlague
+// GridWatchZero
 // Manages app navigation flow between screens
 
 import SwiftUI
@@ -160,6 +160,12 @@ class NavigationCoordinator: ObservableObject {
 
     func completeLevel(_ levelId: Int, stats: LevelCompletionStats) {
         lastCompletionStats = stats
+
+        // Award certificate for level completion (only on first completion of normal mode)
+        if !stats.isInsane {
+            CertificateManager.shared.earnCertificateForLevel(levelId)
+        }
+
         // For Level 7, show Helix awakening cinematic first
         if levelId == 7 {
             currentScreen = .helixAwakening
@@ -198,13 +204,13 @@ class NavigationCoordinator: ObservableObject {
 
     /// Check if save data exists
     var hasSaveData: Bool {
-        UserDefaults.standard.data(forKey: "ProjectPlague.GameState.v5") != nil
+        UserDefaults.standard.data(forKey: "GridWatchZero.GameState.v6") != nil
     }
 
     /// Called when "New Game" is selected
     func handleNewGame() {
         // Clear existing save data
-        UserDefaults.standard.removeObject(forKey: "ProjectPlague.GameState.v5")
+        UserDefaults.standard.removeObject(forKey: "GridWatchZero.GameState.v6")
         // Reset story state for new game
         storyState = StoryState()
         hasShownCampaignStart = false
@@ -274,13 +280,13 @@ class NavigationCoordinator: ObservableObject {
     /// Save story state
     func saveStoryState() {
         if let data = try? JSONEncoder().encode(storyState) {
-            UserDefaults.standard.set(data, forKey: "ProjectPlague.StoryState.v1")
+            UserDefaults.standard.set(data, forKey: "GridWatchZero.StoryState.v1")
         }
     }
 
     /// Load story state
     func loadStoryState() {
-        guard let data = UserDefaults.standard.data(forKey: "ProjectPlague.StoryState.v1"),
+        guard let data = UserDefaults.standard.data(forKey: "GridWatchZero.StoryState.v1"),
               let state = try? JSONDecoder().decode(StoryState.self, from: data) else {
             return
         }
@@ -881,9 +887,16 @@ struct LevelCompleteView: View {
     var onReturnHome: () -> Void
 
     @State private var showContent = false
+    @State private var showCertificatePopup = false
 
     private var accentColor: Color {
         isInsane ? .neonRed : .neonGreen
+    }
+
+    private var earnedCertificate: Certificate? {
+        // Only show certificate for normal mode completions
+        guard !isInsane else { return nil }
+        return CertificateDatabase.certificate(for: levelId)
     }
 
     var body: some View {
@@ -954,11 +967,50 @@ struct LevelCompleteView: View {
                     .cornerRadius(8)
                 }
 
+                // Certificate earned (normal mode only)
+                if let cert = earnedCertificate {
+                    Button {
+                        showCertificatePopup = true
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "checkmark.seal.fill")
+                                .font(.title2)
+                                .foregroundColor(Color.tierColor(named: cert.tier.color))
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("CERTIFICATE EARNED")
+                                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                                    .foregroundColor(Color.tierColor(named: cert.tier.color))
+
+                                Text(cert.abbreviation)
+                                    .font(.terminalTitle)
+                                    .foregroundColor(.white)
+
+                                Text(cert.name)
+                                    .font(.terminalSmall)
+                                    .foregroundColor(.terminalGray)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.terminalGray)
+                        }
+                        .padding(16)
+                        .background(Color.terminalDarkGray)
+                        .cornerRadius(8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.tierColor(named: cert.tier.color).opacity(0.5), lineWidth: 1)
+                        )
+                    }
+                }
+
                 Spacer()
 
                 // Buttons
                 VStack(spacing: 12) {
-                    if levelId < 7 {
+                    if levelId < 20 {
                         Button(action: onNextLevel) {
                             HStack {
                                 Text("NEXT MISSION")
@@ -973,7 +1025,7 @@ struct LevelCompleteView: View {
                         }
                     } else {
                         // Final level complete!
-                        Text("🎉 CAMPAIGN COMPLETE! 🎉")
+                        Text("CAMPAIGN COMPLETE!")
                             .font(.terminalTitle)
                             .foregroundColor(.neonAmber)
                             .padding(.vertical, 14)
@@ -997,6 +1049,15 @@ struct LevelCompleteView: View {
             .padding(32)
             .opacity(showContent ? 1 : 0)
             .offset(y: showContent ? 0 : 20)
+
+            // Certificate popup overlay
+            if showCertificatePopup, let cert = earnedCertificate {
+                CertificateUnlockPopupView(certificate: cert) {
+                    showCertificatePopup = false
+                }
+                .transition(.opacity)
+                .zIndex(100)
+            }
         }
         .onAppear {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.2)) {

@@ -1,5 +1,5 @@
 // GameEngine.swift
-// ProjectPlague
+// GridWatchZero
 // Core game loop and tick processing
 
 import Foundation

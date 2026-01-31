@@ -1,5 +1,5 @@
 // CampaignProgress.swift
-// ProjectPlague
+// GridWatchZero
 // Campaign progression tracking and persistence
 
 import Foundation
@@ -205,7 +205,7 @@ struct LifetimeStats: Codable {
 class CampaignSaveManager {
     static let shared = CampaignSaveManager()
 
-    private let progressKey = "ProjectPlague.CampaignProgress.v1"
+    private let progressKey = "GridWatchZero.CampaignProgress.v1"
 
     private init() {}
 

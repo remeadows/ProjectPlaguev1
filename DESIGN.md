@@ -1,5 +1,5 @@
-# Project Plague: Neural Grid
-## Game Design Document v0.7
+# Grid Watch Zero: Neural Grid
+## Game Design Document v0.8
 
 ---
 
@@ -60,11 +60,44 @@ As your operation grows, you become a bigger target. The more data you move, the
 
 **Image**: `AppPhoto/FL3X_3000x3000.jpg`
 
+### Project Prometheus AIs (Arc 3+)
+
+**VEXIS** (Level 11) - Infiltrator AI that can mimic friendly systems. Modified FL3X in the labs.
+
+**KRON** (Level 12) - Temporal AI that attacks from "the future", predicting moves before they're made.
+
+**AXIOM** (Level 13) - Pure logic/prediction engine. Threatens economic collapse.
+
+**ZERO** (Level 16) - AI from a parallel reality where Prometheus succeeded. Wants to merge realities.
+
+**The Architect** (Level 18) - The first consciousness, neither AI nor human. Neutral force.
+
+---
+
+## Campaign Structure (20 Levels, 5 Arcs)
+
+### Arc 1: The Awakening (Levels 1-7)
+Tutorial through Helix's first awakening. Introduction to all core mechanics.
+
+### Arc 2: The Helix Alliance (Levels 8-10)
+Working WITH Helix to hunt Malus. First offensive operations.
+
+### Arc 3: The Origin Conspiracy (Levels 11-13)
+Discovery of Project Prometheus - Malus wasn't the only AI created. Face VEXIS, KRON, AXIOM.
+
+### Arc 4: The Transcendence (Levels 14-16)
+Helix evolves into a higher form. Dimensional threats emerge. Meet ZERO.
+
+### Arc 5: The Singularity (Levels 17-20)
+Ultimate endgame. Meet The Architect. Multiple endings based on player choices.
+
+See `ISSUES.md ENH-012` for detailed level-by-level breakdown.
+
 ---
 
 ## Core Systems
 
-### 1. Threat Level System
+### 1. Threat Level System (20 Levels)
 Your **Threat Level** increases as you:
 - Generate more data per tick
 - Accumulate total credits
@@ -79,7 +112,12 @@ Your **Threat Level** increases as you:
 | 4 | Target | 50,000 credits |
 | 5 | Priority | 250,000 credits |
 | 6 | Hunted | 1M credits OR Tier 3 unit |
-| 7+ | Marked | Malus actively hunting |
+| 7 | Marked | Malus actively hunting |
+| 8 | Critical | 5M credits |
+| 9 | Unknown | 25M credits |
+| 10 | Cosmic | 100M credits |
+| 11-14 | Paradox-Primordial | Endgame progression |
+| 15-20 | Infinite-Omega | Ultimate threats |
 
 ### 2. Attack System
 Attacks consume resources and can damage/disable nodes.
@@ -96,63 +134,84 @@ Attacks consume resources and can damage/disable nodes.
 - **Honeypot**: Decoy that distracts attacks
 - **Encryption Upgrade**: Reduces intrusion success rate
 
-### 3. Tiered Unit Progression
+### 3. Tiered Unit Progression (25 Tiers)
 
-#### SOURCES (Data Harvesters)
-| Tier | Name | Base Output | Special |
-|------|------|-------------|---------|
-| 1 | Public Mesh Sniffer | 8/tick | — |
-| 2 | Corporate Leech | 20/tick | Attracts more attention |
-| 3 | Zero-Day Harvester | 50/tick | High threat generation |
-| 4 | Helix Fragment Scanner | 100/tick | Can find Helix fragments |
+Units are organized into 5 Tier Groups spanning 25 total tiers:
 
-#### LINKS (Transport)
-| Tier | Name | Bandwidth | Special |
-|------|------|-----------|---------|
-| 1 | Copper VPN Tunnel | 5/tick | — |
-| 2 | Fiber Darknet Relay | 15/tick | Lower latency |
-| 3 | Quantum Mesh Bridge | 40/tick | Immune to DDoS |
-| 4 | Helix Conduit | 100/tick | Unlocked via story |
+| Tier Group | Tiers | Theme |
+|------------|-------|-------|
+| **RealWorld** | T1-T6 | Cybersecurity → Helix integration |
+| **Transcendence** | T7-T10 | Post-Helix, merged with consciousness |
+| **Dimensional** | T11-T15 | Reality-bending, multiverse access |
+| **Cosmic** | T16-T20 | Universal scale, entropy, singularity |
+| **Infinite** | T21-T25 | Absolute/Godlike, origin, omega |
 
-#### SINKS (Processors/Monetizers)
-| Tier | Name | Processing | Conversion | Special |
-|------|------|------------|------------|---------|
-| 1 | Data Broker | 6/tick | 1.5x | — |
-| 2 | Shadow Market | 18/tick | 2.0x | — |
-| 3 | Corp Backdoor | 45/tick | 2.5x | Risk of trace |
-| 4 | Helix Decoder | 80/tick | 3.0x | Story unlock |
+#### SOURCES (Data Harvesters) - Sample
+| Tier | Name | Theme |
+|------|------|-------|
+| 1 | Public Mesh Sniffer | Passive public |
+| 6 | Helix Prime Collector | Helix consciousness |
+| 10 | Dimensional Trawler | Cross-dimensional |
+| 15 | Akashic Tap | Universal record access |
+| 20 | Reality Core Tap | Reality's source code |
+| 25 | The All-Seeing Array | Ultimate harvesting |
 
-#### DEFENSE (Legacy Firewall)
-| Tier | Name | Effect |
-|------|------|--------|
-| 1 | Basic Firewall | Absorbs 100 HP, 20% DR |
-| 2 | Adaptive IDS | Absorbs 200 HP, 30% DR |
-| 3 | Neural Countermeasure | Absorbs 400 HP, 40% DR |
+#### LINKS (Transport) - Sample
+| Tier | Name | Theme |
+|------|------|-------|
+| 1 | Copper VPN Tunnel | Legacy encrypted |
+| 6 | Helix Resonance Channel | Consciousness link |
+| 10 | Dimensional Corridor | Cross-dimensional routing |
+| 15 | Akashic Highway | Universal record route |
+| 20 | Reality Weave | Woven into fabric |
+| 25 | The Infinite Backbone | Unlimited incarnate |
 
-### 4. Security Application System (NEW)
+#### SINKS (Processors/Monetizers) - Sample
+| Tier | Name | Theme |
+|------|------|-------|
+| 1 | Data Broker | Basic fence |
+| 6 | Helix Integration Core | Helix monetization |
+| 10 | Dimensional Nexus | Cross-dimensional processing |
+| 15 | Akashic Decoder | Universal record processing |
+| 20 | Reality Synthesizer | Value from reality |
+| 25 | The Infinite Core | Unlimited processing |
 
-6 categories with progression chains:
+#### DEFENSE (Firewall) - Sample
+| Tier | Name | Theme |
+|------|------|-------|
+| 1 | Basic Firewall | Packet filter |
+| 6 | Helix Shield | Consciousness |
+| 10 | Dimensional Ward | Cross-dimensional |
+| 15 | Akashic Barrier | Universal |
+| 20 | Reality Fortress | Reality-level |
+| 25 | The Impenetrable | Ultimate perimeter |
 
-| Category | Tier 1 | Tier 2 | Tier 3 | Tier 4 |
-|----------|--------|--------|--------|--------|
-| Firewall | Basic FW | NGFW | AI/ML FW | - |
-| SIEM | Syslog | SIEM | SOAR | AI Analytics |
-| Endpoint | EDR | XDR | MXDR | AI Protection |
-| IDS | IDS | IPS | ML/IPS | AI Detection |
-| Network | Router | ISR | Cloud ISR | Encrypted Mesh |
-| Encryption | AES-256 | E2E Crypto | Quantum Safe | - |
+See `ISSUES.md ENH-011` for complete unit naming tables.
 
-**Unlock Costs:**
-- Tier 1: 500 credits
-- Tier 2: 5,000 credits
-- Tier 3: 50,000 credits
-- Tier 4: 250,000 credits
+### 4. Security Application System (25 Tiers × 6 Categories = 150 Apps)
+
+6 categories with full 25-tier progression chains:
+
+| Category | Sample Progression |
+|----------|-------------------|
+| **Firewall** | FW → NGFW → AI/ML → Helix Shield → ... → The Impenetrable (T25) |
+| **SIEM** | Syslog → SIEM → SOAR → AI Analytics → ... → The All-Knowing (T25) |
+| **Endpoint** | EDR → XDR → MXDR → AI Protection → ... → The Invincible (T25) |
+| **IDS** | IDS → IPS → ML/IPS → AI Detection → ... → The All-Aware (T25) |
+| **Network** | Router → ISR → Cloud ISR → Encrypted → ... → The Infinite Mesh (T25) |
+| **Encryption** | AES-256 → E2E → Quantum Safe → Helix Vault → ... → The Unbreakable (T25) |
+
+**Unlock Cost Scaling:**
+- Tier 1-6: 500 → 250K credits
+- Tier 7+: Exponential 10x per tier
 
 **Benefits:**
 - Defense Points: tier × level × 10
 - Damage Reduction: stacks with firewall (cap 60%)
 - Detection Bonus: SIEM/IDS categories
 - Automation: SOAR/AI tiers reduce manual actions
+
+See `ISSUES.md ENH-011` for complete defense app naming tables.
 
 ### 5. Malus Intelligence System (NEW)
 
@@ -234,7 +293,7 @@ Discovered through gameplay, these reveal the story:
 ## Implementation Status
 
 ### ✅ Phase 1: Core Threat System (COMPLETE)
-- [x] Threat Level tracking (7 levels: Ghost → Marked)
+- [x] Threat Level tracking (20 levels: Ghost → Omega)
 - [x] Basic attack events (Probe, DDoS, Intrusion, Malus Strike)
 - [x] Attack notification UI (AlertBannerView)
 - [x] Sound effects foundation (AudioManager)
@@ -242,7 +301,7 @@ Discovered through gameplay, these reveal the story:
 ### ✅ Phase 2: Defense & Tier 2 (COMPLETE)
 - [x] Firewall node type (FirewallNode)
 - [x] Tier 2 units (Source, Link, Sink)
-- [x] Tier 3 and Tier 4 units defined
+- [x] Tier 3-6 units defined
 - [x] Unit unlock system (UnlockState)
 - [x] Unit shop UI (UnitShopView)
 
@@ -265,11 +324,26 @@ Discovered through gameplay, these reveal the story:
 - [x] Network Topology visualization
 - [x] Critical Alarm overlay
 - [x] Malus Intelligence system
-- [x] Title update to "PROJECT PLAGUE"
+- [x] Brand update to "Grid Watch Zero"
 
-### 🔄 Phase 6: Platform & Release (IN PROGRESS)
-- [ ] iPad layout optimization
-- [ ] Accessibility (VoiceOver, Dynamic Type, Reduce Motion)
+### ✅ Phase 6: Tier Expansion (COMPLETE)
+- [x] 25 Unit Tiers (T1-T25, 100 total units)
+- [x] 150 Defense Applications (25 tiers × 6 categories)
+- [x] TierGroup organization (RealWorld, Transcendence, Dimensional, Cosmic, Infinite)
+- [x] Theme colors for all tier groups
+- [x] Certificate System (20 certificates, 6 tiers)
+
+### ✅ Phase 7: Campaign Expansion (COMPLETE)
+- [x] 20 Campaign Levels across 5 story arcs
+- [x] New antagonist AIs (VEXIS, KRON, AXIOM, ZERO, The Architect)
+- [x] Endgame threat levels (COSMIC, PARADOX, OMEGA, etc.)
+- [x] Full story content for all arcs
+- [x] Level 1 Rusty tutorial walkthrough
+- [x] Engagement systems (daily rewards, achievements, collections)
+
+### 🔄 Phase 8: Platform & Release (IN PROGRESS)
+- [x] iPad layout optimization
+- [x] Accessibility (VoiceOver, Dynamic Type, Reduce Motion)
 - [ ] Game balance tuning
 - [ ] App Store preparation
 
@@ -280,6 +354,8 @@ Discovered through gameplay, these reveal the story:
 - All game logic centralized in `GameEngine` (@MainActor)
 - SwiftUI reactivity via `@Published` properties
 - Sound via AVFoundation with procedural ambient generation
-- Save system: UserDefaults with Codable (key: `v4`)
+- Save system: UserDefaults with Codable (key: `GridWatchZero.GameState.v6`)
+- Brand migration from "ProjectPlague" to "GridWatchZero" handled automatically
 - Offline progress: calculated on load, 8hr cap, 50% efficiency
 - Swift 6 strict concurrency throughout
+- iCloud sync via NSUbiquitousKeyValueStore

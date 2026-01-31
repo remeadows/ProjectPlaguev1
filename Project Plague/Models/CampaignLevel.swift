@@ -1,5 +1,5 @@
 // CampaignLevel.swift
-// ProjectPlague
+// GridWatchZero
 // Campaign level definitions and victory conditions
 
 import Foundation

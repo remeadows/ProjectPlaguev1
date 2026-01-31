@@ -1,7 +1,10 @@
-# CLAUDE.md - Project Plague: Neural Grid
+# CLAUDE.md - Grid Watch Zero: Neural Grid
 
 ## Project Overview
 This is an iOS idle/strategy game built with SwiftUI and Swift 6. The player operates a grey-hat data brokerage network, harvesting and selling data while defending against an AI antagonist named **Malus**.
+
+**Game Name**: Grid Watch Zero
+**Developer**: War Signal
 
 ## Tech Stack
 - **Language**: Swift 6 (strict concurrency)
@@ -73,7 +76,7 @@ open "/Volumes/DEV/Code/dev/Games/ProjectPlague/ProjectPlague/Project Plague/Pro
 - Protocol-oriented design for nodes (`NodeProtocol`, `LinkProtocol`)
 
 ## Save System
-- Key: `ProjectPlague.GameState.v5`
+- Key: `GridWatchZero.GameState.v6`
 - Auto-saves every 30 ticks
 - Saves on pause
 - Tracks: resources, nodes, firewall, threat, unlocks, lore, milestones, prestige
@@ -89,6 +92,10 @@ open "/Volumes/DEV/Code/dev/Games/ProjectPlague/ProjectPlague/Project Plague/Pro
 | 5 | PRIORITY | 50,000 | 3.5% |
 | 6 | HUNTED | 250,000 | 5% |
 | 7 | MARKED | 1,000,000 | 8% |
+| 8 | CRITICAL | 5,000,000 | 10% |
+| 9 | UNKNOWN | 25,000,000 | 12% |
+| 10 | COSMIC | 100,000,000 | 15% |
+| 11-20 | PARADOX → OMEGA | Endgame | Scaling |
 
 ## Common Issues
 - Swift 6 concurrency: Use `@MainActor`, `@unchecked Sendable`, or `Task { @MainActor in }`
@@ -103,15 +110,14 @@ open "/Volumes/DEV/Code/dev/Games/ProjectPlague/ProjectPlague/Project Plague/Pro
 - Production multiplier: 1.0 + (prestigeLevel × 0.1) + (totalCores × 0.05)
 - Credit multiplier: 1.0 + (prestigeLevel × 0.15)
 
-### Unit Tiers
-| Tier | Name | Max Level | Unlock Requirement |
-|------|------|-----------|-------------------|
-| 1 | Basic | 10 | Free (starting) |
-| 2 | Advanced | 15 | SIGNAL threat + credits |
-| 3 | Elite | 20 | PRIORITY threat + credits |
-| 4 | Helix | 25 | Story unlock + 500K credits |
-| 5 | Neural | 30 | Campaign Level 5+ |
-| 6 | Quantum | 40 | Campaign Level 6+ |
+### Unit Tiers (25 Total)
+| Tier Group | Tiers | Theme | Max Level |
+|------------|-------|-------|-----------|
+| RealWorld | T1-T6 | Cybersecurity → Helix integration | 10-40 |
+| Transcendence | T7-T10 | Post-Helix, merged with consciousness | 50 |
+| Dimensional | T11-T15 | Reality-bending, multiverse access | 50 |
+| Cosmic | T16-T20 | Universal scale, entropy, singularity | 50 |
+| Infinite | T21-T25 | Absolute/Godlike, origin, omega | 50 |
 
 **Tier Gate System**: Units and Defense Apps must reach max level before the next tier can be unlocked. Shows "MAX" badge when at tier's level cap.
 
@@ -153,9 +159,11 @@ Each deployed app adds:
 - Must acknowledge or boost defenses
 - Includes glitch/pulse effects
 
-### Campaign Level Requirements
-| Level | Credits Required | Reports Required | Available Tiers |
-|-------|-----------------|------------------|-----------------|
+### Campaign Level Requirements (20 Levels)
+
+**Arc 1: The Awakening (Levels 1-7)** - Tutorial → Helix awakens
+| Level | Credits | Reports | Tiers |
+|-------|---------|---------|-------|
 | 1 | 50K | 5 | T1 |
 | 2 | 100K | 10 | T1-T2 |
 | 3 | 500K | 20 | T1-T3 |
@@ -164,10 +172,40 @@ Each deployed app adds:
 | 6 | 10M | 160 | T1-T6 |
 | 7 | 25M | 320 | T1-T6 |
 
+**Arc 2: The Helix Alliance (Levels 8-10)** - Working WITH Helix, hunting Malus
+| Level | Credits | Reports | Tiers |
+|-------|---------|---------|-------|
+| 8 | 50M | 400 | T1-T7 |
+| 9 | 100M | 500 | T1-T8 |
+| 10 | 200M | 640 | T1-T9 |
+
+**Arc 3: The Origin Conspiracy (Levels 11-13)** - Other AIs exist (VEXIS, KRON, AXIOM)
+| Level | Credits | Reports | Tiers |
+|-------|---------|---------|-------|
+| 11 | 400M | 800 | T1-T10 |
+| 12 | 800M | 1,000 | T1-T12 |
+| 13 | 1.5B | 1,280 | T1-T14 |
+
+**Arc 4: The Transcendence (Levels 14-16)** - Helix evolves, dimensional threats, ZERO
+| Level | Credits | Reports | Tiers |
+|-------|---------|---------|-------|
+| 14 | 3B | 1,600 | T1-T15 |
+| 15 | 6B | 2,000 | T1-T17 |
+| 16 | 12B | 2,560 | T1-T19 |
+
+**Arc 5: The Singularity (Levels 17-20)** - Ultimate endgame, The Architect, cosmic scale
+| Level | Credits | Reports | Tiers |
+|-------|---------|---------|-------|
+| 17 | 25B | 3,200 | T1-T21 |
+| 18 | 50B | 4,000 | T1-T23 |
+| 19 | 100B | 5,000 | T1-T24 |
+| 20 | 1T | 10,000 | T1-T25 |
+
 ## Characters
 
-The game features 5 main characters with art assets in `AppPhoto/`:
+The game features main characters with art assets in `AppPhoto/`:
 
+### Core Team
 | Character | Role | Image File |
 |-----------|------|------------|
 | **Malus** | Antagonist AI - adaptive threat hunting the player | `Malus.png` |
@@ -177,5 +215,14 @@ The game features 5 main characters with art assets in `AppPhoto/`:
 | **Rusty** | Team Lead - player's handler, human coordinator | `Rusty.jpg` |
 | **Tish** | Hacker/Intel - technical analyst, decodes Helix | `TishRaw.webp` / `Tish3.jpg` |
 | **Fl3x** | Field Operative - tactical support, ground intel | `FL3X_3000x3000.jpg` |
+
+### Project Prometheus AIs (Arc 3+)
+| Character | Introduced | Role |
+|-----------|------------|------|
+| **VEXIS** | Level 11 | Infiltrator AI - can mimic friendly systems |
+| **KRON** | Level 12 | Temporal AI - attacks from "the future" |
+| **AXIOM** | Level 13 | Logic AI - pure prediction engine |
+| **ZERO** | Level 16 | Parallel reality Prometheus AI |
+| **The Architect** | Level 18 | First consciousness, neither AI nor human |
 
 See `DESIGN.md` for detailed character profiles and visual descriptions.

@@ -1,5 +1,5 @@
 // SaveMigration.swift
-// ProjectPlague
+// GridWatchZero
 // Handles migration of save data between versions
 
 import Foundation
@@ -12,11 +12,12 @@ enum SaveVersion: Int, Comparable, CaseIterable {
     case v3 = 3  // Added FirewallNode, DefenseStack
     case v4 = 4  // Added LoreState, MilestoneState
     case v5 = 5  // Added PrestigeState, MalusIntelligence, criticalAlarmAcknowledged
+    case v6 = 6  // ENH-011/ENH-012: Expanded tiers to 25, campaign levels 8-20, new threat levels
 
-    static let current: SaveVersion = .v5
+    static let current: SaveVersion = .v6
 
     var saveKey: String {
-        "ProjectPlague.GameState.v\(rawValue)"
+        "GridWatchZero.GameState.v\(rawValue)"
     }
 
     static func < (lhs: SaveVersion, rhs: SaveVersion) -> Bool {
@@ -84,6 +85,8 @@ final class SaveMigrationManager {
         case .v4:
             return migrateFromV4(data)
         case .v5:
+            return migrateFromV5(data)
+        case .v6:
             return try? JSONDecoder().decode(GameState.self, from: data)
         }
     }
@@ -246,7 +249,7 @@ extension SaveMigrationManager {
         )
     }
 
-    /// V4 → V5 (current)
+    /// V4 → V6 (current)
     private static func migrateFromV4(_ data: Data) -> GameState? {
         guard let v4 = try? JSONDecoder().decode(GameStateV4.self, from: data) else {
             return nil
@@ -270,6 +273,16 @@ extension SaveMigrationManager {
             lastSaveTimestamp: v4.lastSaveTimestamp,
             criticalAlarmAcknowledged: false
         )
+    }
+
+    /// V5 → V6 (current)
+    /// ENH-011/ENH-012: Tier expansion to 25, new threat levels, campaign levels 8-20
+    /// No structural changes to GameState - just enum expansions that are backwards compatible
+    private static func migrateFromV5(_ data: Data) -> GameState? {
+        // V5 and V6 have identical GameState structure
+        // The only changes are expanded enum cases (tiers, threat levels, attack types)
+        // which are backwards compatible with Codable
+        return try? JSONDecoder().decode(GameState.self, from: data)
     }
 }
 
@@ -322,5 +335,135 @@ extension SaveMigrationManager {
             }
         }
         return nil
+    }
+}
+
+// MARK: - Brand Migration (Project Plague → Grid Watch Zero)
+
+/// Handles one-time migration of UserDefaults keys from the old "ProjectPlague" brand
+/// to the new "GridWatchZero" brand. This preserves all player data across the rename.
+@MainActor
+final class BrandMigrationManager {
+
+    /// Key to track if brand migration has been completed
+    private static let migrationCompleteKey = "GridWatchZero.BrandMigrationComplete"
+
+    /// All key mappings from old brand to new brand
+    private static let keyMappings: [(old: String, new: String)] = [
+        // Game State (all versions)
+        ("ProjectPlague.GameState.v1", "GridWatchZero.GameState.v1"),
+        ("ProjectPlague.GameState.v2", "GridWatchZero.GameState.v2"),
+        ("ProjectPlague.GameState.v3", "GridWatchZero.GameState.v3"),
+        ("ProjectPlague.GameState.v4", "GridWatchZero.GameState.v4"),
+        ("ProjectPlague.GameState.v5", "GridWatchZero.GameState.v5"),
+        ("ProjectPlague.GameState.v6", "GridWatchZero.GameState.v6"),
+
+        // Campaign & Story
+        ("ProjectPlague.CampaignProgress.v1", "GridWatchZero.CampaignProgress.v1"),
+        ("ProjectPlague.StoryState.v1", "GridWatchZero.StoryState.v1"),
+
+        // Engagement Systems
+        ("ProjectPlague.EngagementState.v1", "GridWatchZero.EngagementState.v1"),
+        ("ProjectPlague.AchievementState.v1", "GridWatchZero.AchievementState.v1"),
+        ("ProjectPlague.CollectionState.v1", "GridWatchZero.CollectionState.v1"),
+
+        // Other Systems
+        ("ProjectPlague.CertificateState", "GridWatchZero.CertificateState"),
+        ("ProjectPlague.TutorialState.v1", "GridWatchZero.TutorialState.v1"),
+        ("ProjectPlague.CosmeticState.v1", "GridWatchZero.CosmeticState.v1"),
+        ("ProjectPlague.AudioSettings.v1", "GridWatchZero.AudioSettings.v1"),
+
+        // Device & Cloud
+        ("ProjectPlague.DeviceId", "GridWatchZero.DeviceId"),
+        ("ProjectPlague.LastCloudSync", "GridWatchZero.LastCloudSync"),
+    ]
+
+    /// Check if brand migration has already been completed
+    static var isMigrationComplete: Bool {
+        UserDefaults.standard.bool(forKey: migrationCompleteKey)
+    }
+
+    /// Perform brand migration if needed (call once at app startup)
+    /// Returns true if migration was performed, false if already complete or no data to migrate
+    @discardableResult
+    static func migrateIfNeeded() -> Bool {
+        // Skip if already migrated
+        guard !isMigrationComplete else {
+            return false
+        }
+
+        // Check if there's any old data to migrate
+        let hasOldData = keyMappings.contains { mapping in
+            UserDefaults.standard.object(forKey: mapping.old) != nil
+        }
+
+        guard hasOldData else {
+            // No old data, mark as complete and return
+            markMigrationComplete()
+            return false
+        }
+
+        print("[BrandMigration] Starting migration from ProjectPlague to GridWatchZero...")
+        var migratedCount = 0
+
+        for mapping in keyMappings {
+            if let data = UserDefaults.standard.object(forKey: mapping.old) {
+                // Only migrate if new key doesn't already exist (don't overwrite)
+                if UserDefaults.standard.object(forKey: mapping.new) == nil {
+                    UserDefaults.standard.set(data, forKey: mapping.new)
+                    print("[BrandMigration] Migrated: \(mapping.old) → \(mapping.new)")
+                    migratedCount += 1
+                }
+
+                // Remove old key after migration
+                UserDefaults.standard.removeObject(forKey: mapping.old)
+            }
+        }
+
+        // Also migrate iCloud keys if available
+        migrateCloudKeys()
+
+        markMigrationComplete()
+        print("[BrandMigration] Migration complete. Migrated \(migratedCount) keys.")
+
+        return migratedCount > 0
+    }
+
+    /// Migrate iCloud key-value store keys
+    private static func migrateCloudKeys() {
+        let cloudStore = NSUbiquitousKeyValueStore.default
+
+        let cloudMappings: [(old: String, new: String)] = [
+            ("ProjectPlague.SyncableProgress.v1", "GridWatchZero.SyncableProgress.v1"),
+        ]
+
+        for mapping in cloudMappings {
+            if let data = cloudStore.object(forKey: mapping.old) {
+                if cloudStore.object(forKey: mapping.new) == nil {
+                    cloudStore.set(data, forKey: mapping.new)
+                    print("[BrandMigration] Migrated iCloud: \(mapping.old) → \(mapping.new)")
+                }
+                cloudStore.removeObject(forKey: mapping.old)
+            }
+        }
+
+        cloudStore.synchronize()
+    }
+
+    /// Mark migration as complete
+    private static func markMigrationComplete() {
+        UserDefaults.standard.set(true, forKey: migrationCompleteKey)
+    }
+
+    /// Reset migration flag (for testing purposes only)
+    static func resetMigrationFlag() {
+        UserDefaults.standard.removeObject(forKey: migrationCompleteKey)
+    }
+
+    /// Check if old brand data exists (useful for UI to show migration notice)
+    static func hasOldBrandData() -> Bool {
+        keyMappings.contains { mapping in
+            UserDefaults.standard.object(forKey: mapping.old) != nil
+        }
     }
 }

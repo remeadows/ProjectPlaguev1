@@ -1,5 +1,5 @@
 // ThreatSystem.swift
-// ProjectPlague
+// GridWatchZero
 // Threat level tracking and attack mechanics
 
 import Foundation
@@ -7,6 +7,7 @@ import Foundation
 // MARK: - Threat Level
 
 enum ThreatLevel: Int, Codable, CaseIterable, Comparable {
+    // T1-T6 Threat Levels (Campaign 1-7)
     case ghost = 1       // Starting - invisible
     case blip = 2        // Minor detection
     case signal = 3      // On the radar
@@ -17,6 +18,20 @@ enum ThreatLevel: Int, Codable, CaseIterable, Comparable {
     case targeted = 8    // Coordinated attack incoming
     case hammered = 9    // Sustained assault
     case critical = 10   // City-level threat response
+    // T7-T10 Threat Levels (Campaign 8-10) - Transcendence Era
+    case ascended = 11   // Post-Helix awakening threats
+    case symbiont = 12   // Hybrid AI threats
+    case transcendent = 13 // Beyond conventional threats
+    // T11-T15 Threat Levels (Campaign 11-14) - Dimensional Era
+    case unknown = 14    // Reality unstable
+    case dimensional = 15 // Threats from other dimensions
+    case cosmic = 16     // Universal-scale threats
+    // T16-T20 Threat Levels (Campaign 15-18) - Cosmic Era
+    case paradox = 17    // Quantum superposition threats
+    case primordial = 18 // First threats from the origin
+    case infinite = 19   // Limitless threat capacity
+    // T21-T25 Threat Levels (Campaign 19-20) - Omega Era
+    case omega = 20      // The final threat level
 
     static func < (lhs: ThreatLevel, rhs: ThreatLevel) -> Bool {
         lhs.rawValue < rhs.rawValue
@@ -34,6 +49,16 @@ enum ThreatLevel: Int, Codable, CaseIterable, Comparable {
         case .targeted: return "TARGETED"
         case .hammered: return "HAMMERED"
         case .critical: return "CRITICAL"
+        case .ascended: return "ASCENDED"
+        case .symbiont: return "SYMBIONT"
+        case .transcendent: return "TRANSCENDENT"
+        case .unknown: return "UNKNOWN"
+        case .dimensional: return "DIMENSIONAL"
+        case .cosmic: return "COSMIC"
+        case .paradox: return "PARADOX"
+        case .primordial: return "PRIMORDIAL"
+        case .infinite: return "INFINITE"
+        case .omega: return "OMEGA"
         }
     }
 
@@ -49,6 +74,16 @@ enum ThreatLevel: Int, Codable, CaseIterable, Comparable {
         case .targeted: return "Coordinated strike inbound"
         case .hammered: return "Under sustained heavy assault"
         case .critical: return "City-wide threat response activated"
+        case .ascended: return "Post-Helix awakening threats manifest"
+        case .symbiont: return "Hybrid AI entities hunting you"
+        case .transcendent: return "Beyond conventional threat classification"
+        case .unknown: return "Reality itself is unstable"
+        case .dimensional: return "Threats from parallel dimensions"
+        case .cosmic: return "Universal-scale threat response"
+        case .paradox: return "Quantum superposition of threats"
+        case .primordial: return "First threats from the origin point"
+        case .infinite: return "Limitless threat capacity engaged"
+        case .omega: return "THE FINAL THREAT LEVEL"
         }
     }
 
@@ -64,6 +99,17 @@ enum ThreatLevel: Int, Codable, CaseIterable, Comparable {
         case .targeted: return "neonRed"
         case .hammered: return "neonRed"
         case .critical: return "neonRed"
+        // New threat level colors
+        case .ascended: return "transcendencePurple"
+        case .symbiont: return "transcendencePurple"
+        case .transcendent: return "voidBlue"
+        case .unknown: return "dimensionalGold"
+        case .dimensional: return "multiversePink"
+        case .cosmic: return "cosmicSilver"
+        case .paradox: return "darkMatterPurple"
+        case .primordial: return "singularityWhite"
+        case .infinite: return "infiniteGold"
+        case .omega: return "omegaBlack"
         }
     }
 
@@ -83,6 +129,17 @@ enum ThreatLevel: Int, Codable, CaseIterable, Comparable {
         case .targeted: return 12.0
         case .hammered: return 18.0
         case .critical: return 25.0
+        // Endgame threat levels (T7+)
+        case .ascended: return 30.0
+        case .symbiont: return 35.0
+        case .transcendent: return 40.0
+        case .unknown: return 45.0
+        case .dimensional: return 50.0
+        case .cosmic: return 55.0
+        case .paradox: return 60.0
+        case .primordial: return 65.0
+        case .infinite: return 70.0
+        case .omega: return 80.0  // Constant assault at omega level
         }
     }
 
@@ -100,15 +157,38 @@ enum ThreatLevel: Int, Codable, CaseIterable, Comparable {
         case .targeted: return 5.5
         case .hammered: return 7.5
         case .critical: return 10.0
+        // Endgame severity (balanced for T7+ defense apps)
+        case .ascended: return 12.0
+        case .symbiont: return 15.0
+        case .transcendent: return 18.0
+        case .unknown: return 22.0
+        case .dimensional: return 27.0
+        case .cosmic: return 33.0
+        case .paradox: return 40.0
+        case .primordial: return 50.0
+        case .infinite: return 65.0
+        case .omega: return 100.0  // Ultimate threat severity
         }
     }
 
-    static func forCredits(_ totalCredits: Double, hasT2: Bool = false, hasT3: Bool = false, hasT4: Bool = false, hasT5: Bool = false, hasT6: Bool = false) -> ThreatLevel {
-        // Late-game threat levels for campaign levels 5-7
-        if hasT6 || totalCredits >= 50_000_000 { return .critical }
-        if hasT5 || totalCredits >= 10_000_000 { return .hammered }
-        if totalCredits >= 5_000_000 { return .targeted }
-        // Original threat levels
+    static func forCredits(_ totalCredits: Double, hasT2: Bool = false, hasT3: Bool = false, hasT4: Bool = false, hasT5: Bool = false, hasT6: Bool = false, campaignLevel: Int = 1) -> ThreatLevel {
+        // Omega era (Campaign 19-20, T21-25)
+        if campaignLevel >= 20 || totalCredits >= 1_000_000_000_000_000_000 { return .omega }       // 1 Quintillion
+        if campaignLevel >= 19 || totalCredits >= 100_000_000_000_000_000 { return .infinite }     // 100 Quadrillion
+        // Cosmic era (Campaign 15-18, T16-20)
+        if campaignLevel >= 18 || totalCredits >= 10_000_000_000_000_000 { return .primordial }    // 10 Quadrillion
+        if campaignLevel >= 17 || totalCredits >= 1_000_000_000_000_000 { return .paradox }        // 1 Quadrillion
+        if campaignLevel >= 16 || totalCredits >= 100_000_000_000_000 { return .cosmic }           // 100 Trillion
+        if campaignLevel >= 15 || totalCredits >= 10_000_000_000_000 { return .dimensional }       // 10 Trillion
+        // Dimensional era (Campaign 11-14, T11-15)
+        if campaignLevel >= 14 || totalCredits >= 1_000_000_000_000 { return .unknown }            // 1 Trillion
+        if campaignLevel >= 13 || totalCredits >= 500_000_000_000 { return .transcendent }         // 500 Billion
+        if campaignLevel >= 12 || totalCredits >= 200_000_000_000 { return .symbiont }             // 200 Billion
+        if campaignLevel >= 11 || totalCredits >= 100_000_000_000 { return .ascended }             // 100 Billion
+        // Original threat levels (Campaign 1-10, T1-T6)
+        if hasT6 || campaignLevel >= 10 || totalCredits >= 50_000_000_000 { return .critical }     // 50 Billion
+        if hasT5 || campaignLevel >= 9 || totalCredits >= 10_000_000_000 { return .hammered }      // 10 Billion
+        if campaignLevel >= 8 || totalCredits >= 1_000_000_000 { return .targeted }                // 1 Billion
         if hasT4 || hasT3 || totalCredits >= 1_000_000 { return .marked }
         if totalCredits >= 250_000 { return .hunted }
         if totalCredits >= 50_000 { return .priority }
@@ -252,6 +332,7 @@ struct RiskCalculation {
 // MARK: - Attack Types
 
 enum AttackType: String, Codable, CaseIterable {
+    // Original attack types (T1-T6)
     case probe = "PROBE"
     case ddos = "DDoS"
     case intrusion = "INTRUSION"
@@ -259,6 +340,19 @@ enum AttackType: String, Codable, CaseIterable {
     case coordinatedAssault = "COORDINATED_ASSAULT"
     case neuralHijack = "NEURAL_HIJACK"
     case quantumBreach = "QUANTUM_BREACH"
+    // Transcendence era attacks (T7-T10)
+    case symbioticInvasion = "SYMBIOTIC_INVASION"
+    case voidRift = "VOID_RIFT"
+    // Dimensional era attacks (T11-T15)
+    case dimensionalTear = "DIMENSIONAL_TEAR"
+    case causalityLoop = "CAUSALITY_LOOP"
+    case timelineCollapse = "TIMELINE_COLLAPSE"
+    // Cosmic era attacks (T16-T20)
+    case singularityBomb = "SINGULARITY_BOMB"
+    case realityUnravel = "REALITY_UNRAVEL"
+    // Omega era attacks (T21-T25)
+    case omegaStrike = "OMEGA_STRIKE"
+    case existentialThreat = "EXISTENTIAL_THREAT"
 
     var displayName: String {
         switch self {
@@ -269,6 +363,15 @@ enum AttackType: String, Codable, CaseIterable {
         case .coordinatedAssault: return "COORDINATED ASSAULT"
         case .neuralHijack: return "NEURAL HIJACK"
         case .quantumBreach: return "QUANTUM BREACH"
+        case .symbioticInvasion: return "SYMBIOTIC INVASION"
+        case .voidRift: return "VOID RIFT"
+        case .dimensionalTear: return "DIMENSIONAL TEAR"
+        case .causalityLoop: return "CAUSALITY LOOP"
+        case .timelineCollapse: return "TIMELINE COLLAPSE"
+        case .singularityBomb: return "SINGULARITY BOMB"
+        case .realityUnravel: return "REALITY UNRAVEL"
+        case .omegaStrike: return "OMEGA STRIKE"
+        case .existentialThreat: return "EXISTENTIAL THREAT"
         }
     }
 
@@ -281,6 +384,15 @@ enum AttackType: String, Codable, CaseIterable {
         case .coordinatedAssault: return ">> MULTIPLE ATTACK VECTORS <<"
         case .neuralHijack: return ">> AI OVERRIDE DETECTED <<"
         case .quantumBreach: return ">> QUANTUM DECRYPTION IN PROGRESS <<"
+        case .symbioticInvasion: return ">> HYBRID ENTITIES MERGING WITH SYSTEMS <<"
+        case .voidRift: return ">> REALITY FRACTURE DETECTED <<"
+        case .dimensionalTear: return ">> PARALLEL UNIVERSE INTRUSION <<"
+        case .causalityLoop: return ">> TEMPORAL PARADOX FORMING <<"
+        case .timelineCollapse: return ">> TIMELINE DESTABILIZING <<"
+        case .singularityBomb: return ">> GRAVITATIONAL ANOMALY DETECTED <<"
+        case .realityUnravel: return ">> EXISTENCE MATRICES FAILING <<"
+        case .omegaStrike: return ">> THE END IS HERE <<"
+        case .existentialThreat: return ">> BEYOND COMPREHENSION <<"
         }
     }
 
@@ -293,6 +405,15 @@ enum AttackType: String, Codable, CaseIterable {
         case .coordinatedAssault: return "arrow.triangle.merge"
         case .neuralHijack: return "brain.head.profile"
         case .quantumBreach: return "atom"
+        case .symbioticInvasion: return "allergens"
+        case .voidRift: return "tornado"
+        case .dimensionalTear: return "rectangle.on.rectangle.angled"
+        case .causalityLoop: return "arrow.2.circlepath"
+        case .timelineCollapse: return "clock.arrow.circlepath"
+        case .singularityBomb: return "circle.dashed.inset.filled"
+        case .realityUnravel: return "waveform.path.ecg"
+        case .omegaStrike: return "burst.fill"
+        case .existentialThreat: return "infinity"
         }
     }
 
@@ -306,6 +427,15 @@ enum AttackType: String, Codable, CaseIterable {
         case .coordinatedAssault: return 20
         case .neuralHijack: return 12
         case .quantumBreach: return 25
+        case .symbioticInvasion: return 18
+        case .voidRift: return 22
+        case .dimensionalTear: return 30
+        case .causalityLoop: return 28
+        case .timelineCollapse: return 35
+        case .singularityBomb: return 40
+        case .realityUnravel: return 45
+        case .omegaStrike: return 50
+        case .existentialThreat: return 60
         }
     }
 
@@ -319,6 +449,15 @@ enum AttackType: String, Codable, CaseIterable {
         case .coordinatedAssault: return .targeted
         case .neuralHijack: return .hammered
         case .quantumBreach: return .critical
+        case .symbioticInvasion: return .ascended
+        case .voidRift: return .transcendent
+        case .dimensionalTear: return .unknown
+        case .causalityLoop: return .dimensional
+        case .timelineCollapse: return .cosmic
+        case .singularityBomb: return .paradox
+        case .realityUnravel: return .primordial
+        case .omegaStrike: return .infinite
+        case .existentialThreat: return .omega
         }
     }
 
@@ -332,6 +471,15 @@ enum AttackType: String, Codable, CaseIterable {
         case .coordinatedAssault: return 8
         case .neuralHijack: return 4
         case .quantumBreach: return 2
+        case .symbioticInvasion: return 6
+        case .voidRift: return 4
+        case .dimensionalTear: return 5
+        case .causalityLoop: return 3
+        case .timelineCollapse: return 2
+        case .singularityBomb: return 2
+        case .realityUnravel: return 1
+        case .omegaStrike: return 1
+        case .existentialThreat: return 1
         }
     }
 }
@@ -367,7 +515,7 @@ struct Attack: Identifiable, Codable {
         // Base scaling: 1.0 at 10 credits/tick, scales up with income
         let incomeScale = max(1.0, playerIncomePerTick / 10.0)
         // Cap the scaling to prevent absurd damage at high incomes
-        let cappedScale = min(incomeScale, 10.0)  // Capped at 10x to prevent brutal damage spikes
+        let cappedScale = min(incomeScale, 100.0)  // Higher cap for endgame attacks
         // Blend: 70% base damage + 30% income-scaled damage
         let effectiveScale = 0.7 + (0.3 * cappedScale)
 
@@ -415,13 +563,100 @@ struct Attack: Identifiable, Codable {
             )
 
         case .quantumBreach:
-            // Ultimate attack: devastating across all vectors
+            // Ultimate T1-6 attack: devastating across all vectors
             let baseDrain = 200 * severity
             return AttackDamage(
                 creditDrain: baseDrain * effectiveScale,
                 bandwidthReduction: 0.6 * severity,
                 nodeDisableChance: 0.25 * severity,
                 processingReduction: 0.4 * severity
+            )
+
+        // Transcendence era attacks (T7-T10)
+        case .symbioticInvasion:
+            let baseDrain = 300 * severity
+            return AttackDamage(
+                creditDrain: baseDrain * effectiveScale,
+                bandwidthReduction: 0.5 * severity,
+                nodeDisableChance: 0.35 * severity,
+                processingReduction: 0.45 * severity
+            )
+
+        case .voidRift:
+            let baseDrain = 400 * severity
+            return AttackDamage(
+                creditDrain: baseDrain * effectiveScale,
+                bandwidthReduction: 0.65 * severity,
+                nodeDisableChance: 0.3 * severity,
+                processingReduction: 0.5 * severity
+            )
+
+        // Dimensional era attacks (T11-T15)
+        case .dimensionalTear:
+            let baseDrain = 500 * severity
+            return AttackDamage(
+                creditDrain: baseDrain * effectiveScale,
+                bandwidthReduction: 0.7 * severity,
+                nodeDisableChance: 0.4 * severity,
+                processingReduction: 0.55 * severity
+            )
+
+        case .causalityLoop:
+            // Loops back damage, heavy credit drain
+            let baseDrain = 600 * severity
+            return AttackDamage(
+                creditDrain: baseDrain * effectiveScale,
+                bandwidthReduction: 0.5 * severity,
+                nodeDisableChance: 0.45 * severity,
+                processingReduction: 0.6 * severity
+            )
+
+        case .timelineCollapse:
+            let baseDrain = 800 * severity
+            return AttackDamage(
+                creditDrain: baseDrain * effectiveScale,
+                bandwidthReduction: 0.75 * severity,
+                nodeDisableChance: 0.5 * severity,
+                processingReduction: 0.65 * severity
+            )
+
+        // Cosmic era attacks (T16-T20)
+        case .singularityBomb:
+            let baseDrain = 1000 * severity
+            return AttackDamage(
+                creditDrain: baseDrain * effectiveScale,
+                bandwidthReduction: 0.8 * severity,
+                nodeDisableChance: 0.55 * severity,
+                processingReduction: 0.7 * severity
+            )
+
+        case .realityUnravel:
+            let baseDrain = 1500 * severity
+            return AttackDamage(
+                creditDrain: baseDrain * effectiveScale,
+                bandwidthReduction: 0.85 * severity,
+                nodeDisableChance: 0.6 * severity,
+                processingReduction: 0.75 * severity
+            )
+
+        // Omega era attacks (T21-T25)
+        case .omegaStrike:
+            let baseDrain = 2000 * severity
+            return AttackDamage(
+                creditDrain: baseDrain * effectiveScale,
+                bandwidthReduction: 0.9 * severity,
+                nodeDisableChance: 0.7 * severity,
+                processingReduction: 0.8 * severity
+            )
+
+        case .existentialThreat:
+            // The ultimate attack - threatens existence itself
+            let baseDrain = 5000 * severity
+            return AttackDamage(
+                creditDrain: baseDrain * effectiveScale,
+                bandwidthReduction: 0.95 * severity,
+                nodeDisableChance: 0.8 * severity,
+                processingReduction: 0.9 * severity
             )
         }
     }

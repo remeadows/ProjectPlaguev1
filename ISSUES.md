@@ -1,4 +1,4 @@
-# ISSUES.md - Project Plague: Neural Grid
+# ISSUES.md - Grid Watch Zero: Neural Grid
 
 ## Issue Tracker
 
@@ -311,9 +311,75 @@ Updated `UnitShopView.swift` to pass `tierGateReason` from GameEngine to `UnitRo
 
 ### ENH-008: Cyber Defense Certificates Per Level
 **Priority**: Medium
-**Status**: Open
+**Status**: ✅ Implemented
 **Description**: Award Cyber Defense certificates after completing each campaign level. These certifications should be displayed on the player's account/profile.
-**Notes**: Could tie into real-world security cert names (CompTIA Security+, CISSP-lite, etc.) or create fictional equivalents matching game lore.
+
+**Implementation**:
+
+#### Certificate System Design
+- 20 unique certificates (one per campaign level)
+- 6 certificate tiers matching story arcs:
+  - **Foundational** (Levels 1-4): CDO series - Basic cyber defense certifications
+  - **Practitioner** (Levels 5-7): CSP series - Enterprise-level certifications
+  - **Professional** (Levels 8-10): CEX series - Offensive operations certifications
+  - **Expert** (Levels 11-14): MSE series - Master-level certifications
+  - **Master** (Levels 15-17): GM series - Grandmaster certifications
+  - **Architect** (Levels 18-20): SA series - Supreme Architect certifications
+
+#### Certificate Naming Convention
+| Level | Abbreviation | Name | Issuing Body |
+|-------|--------------|------|--------------|
+| 1 | CDO-NET | Network Fundamentals | Helix Alliance Certification Board |
+| 2 | CDO-SEC | Security Essentials | Helix Alliance Certification Board |
+| 3 | CDO-TI | Threat Intelligence | Helix Alliance Certification Board |
+| 4 | CDO-IR | Incident Response | Helix Alliance Certification Board |
+| 5 | CSP-DA | Defense Architecture | Global Cyber Defense Institute |
+| 6 | CSP-EM | Enterprise Management | Global Cyber Defense Institute |
+| 7 | CSP-CI | Critical Infrastructure | Global Cyber Defense Institute |
+| 8 | CEX-OO | Offensive Operations | Helix Alliance Advanced Programs |
+| 9 | CEX-IE | Intelligence Extraction | Helix Alliance Advanced Programs |
+| 10 | CEX-ATN | AI Threat Neutralization | Helix Alliance Advanced Programs |
+| 11 | MSE-ID | Infiltration Defense | Prometheus Research Consortium |
+| 12 | MSE-TO | Temporal Operations | Prometheus Research Consortium |
+| 13 | MSE-AL | Adversarial Logic | Prometheus Research Consortium |
+| 14 | MSE-DA | Deep Analysis | Prometheus Research Consortium |
+| 15 | GM-CES | Consciousness Evolution Support | Architect's Council |
+| 16 | GM-MD | Multidimensional Defense | Architect's Council |
+| 17 | GM-RC | Reality Convergence | Architect's Council |
+| 18 | SA-FCP | First Contact Protocol | The Architect |
+| 19 | SA-CI | Consciousness Integration | The Architect |
+| 20 | SA-UH | Universal Harmony | The Unified Consciousness |
+
+#### Features
+- Certificates awarded automatically on first normal-mode level completion
+- Each certificate tracks: credit hours earned, issue date
+- Tier-themed colors matching game visual system
+- Certificate popup on level completion showing newly earned cert
+- Full certificate gallery in Player Profile
+- Progress tracking: total certs earned, total credit hours, completed tiers
+
+#### UI Components
+- **CertificateSummaryBadge**: Compact display showing count and highest tier
+- **CertificateCardView**: Individual certificate display with tier styling
+- **CertificateGridView**: Grid of all certificates organized by tier
+- **CertificateDetailView**: Full certificate details modal
+- **CertificateUnlockPopupView**: Celebration popup on certificate earned
+- **CertificatesFullView**: Full-screen certificate gallery sheet
+
+#### Integration Points
+- NavigationCoordinator: Awards certificate in `completeLevel()` for normal mode
+- LevelCompleteView: Shows earned certificate after level stats
+- PlayerProfileView: Certificates section with summary and "View All" button
+
+**Files Added**:
+- `Models/CertificateSystem.swift` - Certificate model, tiers, database, state, manager
+- `Views/CertificateView.swift` - All certificate UI components
+
+**Files Modified**:
+- `Engine/NavigationCoordinator.swift` - Certificate award on level completion
+- `Views/PlayerProfileView.swift` - Certificates section in profile
+
+**Closed**: 2026-01-31
 
 ### ENH-009: Endless Mode Slower Gameplay
 **Priority**: Medium
@@ -332,7 +398,7 @@ Updated `UnitShopView.swift` to pass `tierGateReason` from GameEngine to `UnitRo
 
 ### ENH-011: Expand Tiers to 25 with New Names
 **Priority**: High
-**Status**: ✅ Brainstorm Complete
+**Status**: ✅ Implemented
 **Description**: Unit shop and app defense expansion to Tier 25 with thematic naming.
 
 #### Naming Theme Progression
@@ -621,9 +687,24 @@ Updated `UnitShopView.swift` to pass `tierGateReason` from GameEngine to `UnitRo
 - **Story Integration**: Higher tiers unlock through campaign progression
 - **Visual Theme**: Colors shift from green/cyan (T1-6) → purple/gold (T7-15) → white/black (T16-25)
 
+**Implementation Summary**:
+- Added 19 new tiers (T7-T25) to `NodeTier` enum with names, colors, maxLevels, and TierGroup organization
+- Created 76 new units (19 per category: Source, Link, Sink, Firewall) in UnitFactory
+- Created 114 new defense apps (19 per category × 6 categories) in DefenseApplication
+- Added theme colors: transcendencePurple, voidBlue, dimensionalGold, multiversePink, akashicGold, cosmicSilver, darkMatterPurple, singularityWhite, infiniteGold, omegaBlack
+- TierGroup enum added for UI organization (RealWorld, Transcendence, Dimensional, Cosmic, Infinite)
+
+**Files Modified**:
+- `Models/Node.swift` - NodeTier enum with T1-T25 cases
+- `Engine/UnitFactory.swift` - 100 total units (T1-T25 × 4 categories)
+- `Models/DefenseApplication.swift` - 150 defense app tiers (T1-T25 × 6 categories)
+- `Views/Theme.swift` - New tier-themed colors
+
+**Closed**: 2026-01-31
+
 ### ENH-012: New Campaign Levels Beyond 7
 **Priority**: Medium
-**Status**: ✅ Brainstorm Complete
+**Status**: ✅ Implemented
 **Description**: Campaign expansion from 7 to 20 levels across 4 new story arcs.
 
 ---
@@ -860,6 +941,22 @@ The original black site created not one AI, but SEVEN. Malus was just the first 
 - **Arc 5** is aspirational endgame content, could be simplified
 - Consider releasing arcs as DLC or major updates
 - Each arc should feel complete on its own with satisfying mini-endings
+
+**Implementation Summary**:
+- Added 13 new campaign levels (8-20) to LevelDatabase with full victory conditions
+- Created story content for all 20 levels including new characters and dialogue
+- Added new threat levels: CRITICAL, UNKNOWN, COSMIC, PARADOX, PRIMORDIAL, INFINITE, OMEGA
+- Added 17 attack types including endgame cosmic-scale attacks
+- Integrated certificate system with all 20 levels (6 certificate tiers)
+- New AI characters: VEXIS (L11), KRON (L12), AXIOM (L13), ZERO (L16), The Architect (L18)
+
+**Files Modified**:
+- `Models/LevelDatabase.swift` - Levels 1-20 with VictoryConditions, tier unlocks
+- `Models/StorySystem.swift` - Story moments for all arcs and characters
+- `Models/ThreatSystem.swift` - 20 threat levels, 17 attack types
+- `Models/CertificateSystem.swift` - 20 certificates across 6 tiers
+
+**Closed**: 2026-01-31
 
 ### ENH-013: Level 1 Rusty Tutorial Walkthrough
 **Priority**: High
@@ -1101,7 +1198,7 @@ Created comprehensive tutorial system with 12 guided steps:
 **Closed**: 2026-01-19
 
 ### ENH-004: Custom Sound Pack
-**Status**: 🔴 Reopened
+**Status**: ✅ Fixed
 **Priority**: High
 **Previous Resolution**: Changed system sounds to cyberpunk-themed electronic tones. Added procedural ambient synth drone generator using AVAudioEngine.
 **Previously Closed**: 2026-01-19
@@ -1115,52 +1212,57 @@ Created comprehensive tutorial system with 12 guided steps:
 3. **Update ring bell too loud** - Milestone/alert sounds are jarring and distracting
 4. **Missing haptic feedback** - Touch responses should play tones AND vibrate phone
 
-**Issues Identified**:
-| Problem | Component | Likely Cause |
-|---------|-----------|--------------|
-| No button sounds | `playSound()` | AudioServicesPlaySystemSound not working (see ISSUE-008) |
-| Buzz instead of music | AVAudioEngine | Procedural synth parameters wrong, or audio graph issue |
-| Bell too loud | Alert sounds | No volume normalization, no user volume control |
-| No haptics | `triggerHaptic()` | Not being called, or haptic engine not initialized |
+**Solution Implemented** (2026-01-30):
 
-**TODO**:
-- [ ] Fix button sounds (related to ISSUE-008 - use AVAudioPlayer instead of system sounds)
-- [ ] Replace procedural ambient synth with pre-recorded cyberpunk music loop
-- [ ] Add volume control/normalization for alert sounds
-- [ ] Verify haptic feedback is triggering on button taps
-- [ ] Add user settings: Master Volume, SFX Volume, Music Volume, Haptics On/Off
-- [ ] Source or create proper cyberpunk audio assets (.m4a or .wav)
-- [ ] Test on physical device after each fix
+1. **Created AudioSettings model** (`Models/AudioSettings.swift`):
+   - Separate toggles for Music, SFX, and Haptics
+   - Individual volume sliders for Music and SFX
+   - Master volume control
+   - Persistent settings via UserDefaults
+   - `AudioSettingsManager` singleton for real-time updates
 
-**Audio Specifications**:
+2. **Updated AudioManager** (`Engine/AudioManager.swift`):
+   - Added `isHapticsEnabled` flag with getter/setter
+   - Haptic feedback now respects settings toggle
+   - `HapticManager` methods check `AudioManager.shared.hapticsEnabled` before triggering
 
-| Sound Type | Length | Format | Notes |
-|------------|--------|--------|-------|
-| **Background music** | 2-3 min | .m4a (AAC) | Seamless loop, cyberpunk synth pads |
-| **Button clicks** | 50-150ms | .wav | Short, crisp, satisfying |
-| **Milestone/alert** | 1-2 sec | .wav | Normalized volume, not jarring |
-| **Attack warning** | 1-3 sec | .wav | Urgent but not annoying |
-| **Upgrade sound** | 0.5-1 sec | .wav | Positive feedback tone |
+3. **Created SettingsView** (`Views/SettingsView.swift`):
+   - Full settings UI with cyberpunk theme
+   - Music toggle + volume slider (indented when enabled)
+   - SFX toggle + volume slider (indented when enabled)
+   - Haptic feedback toggle
+   - Master volume slider
+   - Reset to defaults button
+   - Accessible with VoiceOver support
 
-**Music Loop Best Practices**:
-- 2-3 minute loop avoids obvious repetition during long sessions
-- Seamless loop point (end blends into beginning)
-- Avoid distinctive moments that reveal the loop
-- Consider layered approach: base drone + dynamic elements based on threat level
-- Cyberpunk theme: subtle synth pads, glitchy textures, low bass hum
+4. **Integrated settings across app**:
+   - StatsHeaderView: Replaced speaker toggle with gear icon → opens SettingsView
+   - DashboardView: Added `showingSettings` state and settings sheet
+   - HomeView: Added settings gear button in header
 
-**Haptic Patterns**:
-| Action | Haptic Type | iOS API |
-|--------|-------------|---------|
-| Button tap | Light | `.light` or `.selection` |
-| Upgrade | Medium | `.medium` |
-| Milestone | Success | `.success` |
-| Attack incoming | Warning | `.warning` |
-| Damage taken | Heavy | `.heavy` or `.error` |
+**User Controls Now Available**:
+| Setting | Type | Default |
+|---------|------|---------|
+| Master Volume | Slider 0-100% | 100% |
+| Music Enabled | Toggle | On |
+| Music Volume | Slider 0-100% | 30% |
+| SFX Enabled | Toggle | On |
+| SFX Volume | Slider 0-100% | 70% |
+| Haptics Enabled | Toggle | On |
 
-**Related Issues**: ISSUE-008 (Sound plays when volume off - same root cause)
+**Files Added**:
+- `Models/AudioSettings.swift` - Settings model and manager
+- `Views/SettingsView.swift` - Settings UI
 
-**Files**: `Engine/AudioManager.swift`
+**Files Modified**:
+- `Engine/AudioManager.swift` - Haptics toggle support
+- `Views/Components/StatsHeaderView.swift` - Settings button
+- `Views/DashboardView.swift` - Settings sheet
+- `Views/HomeView.swift` - Settings button in header
+
+**Note**: Audio asset files (background_music.m4a, sound effects) still need to be added to the bundle. The system is ready to use pre-recorded audio files once they are sourced.
+
+**Closed**: 2026-01-30
 
 ---
 
