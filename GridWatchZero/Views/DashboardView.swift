@@ -6,6 +6,8 @@ import SwiftUI
 
 struct DashboardView: View {
     @EnvironmentObject var engine: GameEngine
+    @EnvironmentObject var cloudManager: CloudSaveManager
+    @EnvironmentObject var campaignState: CampaignState
     @StateObject private var tutorialManager = TutorialManager.shared
     @StateObject private var engagementManager = EngagementManager.shared
     @StateObject private var achievementManager = AchievementManager.shared
@@ -188,6 +190,8 @@ struct DashboardView: View {
         }
         .sheet(isPresented: $showingSettings) {
             SettingsView()
+                .environmentObject(cloudManager)
+                .environmentObject(campaignState)
         }
         .sheet(isPresented: $showingOfflineProgress) {
             if let progress = engine.offlineProgress {

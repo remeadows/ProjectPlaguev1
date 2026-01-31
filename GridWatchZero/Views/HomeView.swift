@@ -83,6 +83,8 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showSettingsSheet) {
             SettingsView()
+                .environmentObject(cloudManager)
+                .environmentObject(campaignState)
         }
         .sheet(isPresented: $showDossierSheet) {
             DossierCollectionView()

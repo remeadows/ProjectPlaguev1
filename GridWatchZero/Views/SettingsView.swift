@@ -6,7 +6,11 @@ import SwiftUI
 
 struct SettingsView: View {
     @StateObject private var audioSettings = AudioSettingsManager.shared
+    @EnvironmentObject var cloudManager: CloudSaveManager
+    @EnvironmentObject var campaignState: CampaignState
     @Environment(\.dismiss) private var dismiss
+    
+    @State private var showingCloudDiagnostics = false
 
     var body: some View {
         NavigationStack {
@@ -114,6 +118,54 @@ struct SettingsView: View {
                                 .padding(.vertical, 8)
                             }
                         }
+                        
+                        // iCloud Section
+                        SettingsSection(title: "ICLOUD SYNC", icon: "icloud.fill") {
+                            // Sync Status Row
+                            HStack(spacing: 12) {
+                                Image(systemName: cloudStatusIcon)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(cloudStatusColor)
+                                    .frame(width: 24)
+                                
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Sync Status")
+                                        .font(.terminalBody)
+                                        .foregroundColor(.white)
+                                    Text(cloudManager.status.displayText)
+                                        .font(.terminalMicro)
+                                        .foregroundColor(.terminalGray)
+                                }
+                                
+                                Spacer()
+                            }
+                            
+                            Divider().background(Color.terminalGray.opacity(0.3))
+                            
+                            // Diagnostics Button
+                            Button(action: {
+                                showingCloudDiagnostics = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "stethoscope")
+                                        .foregroundColor(.neonCyan)
+                                    Text("iCloud Diagnostics")
+                                        .font(.terminalBody)
+                                        .foregroundColor(.neonCyan)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.caption)
+                                        .foregroundColor(.terminalGray)
+                                }
+                                .padding(.vertical, 8)
+                            }
+                            
+                            Text("Troubleshoot iCloud sync issues")
+                                .font(.terminalMicro)
+                                .foregroundColor(.terminalGray)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.leading, 4)
+                        }
 
                         Spacer(minLength: 40)
                     }
@@ -134,6 +186,39 @@ struct SettingsView: View {
             }
             .toolbarBackground(Color.terminalDarkGray, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
+            .sheet(isPresented: $showingCloudDiagnostics) {
+                CloudDiagnosticView()
+                    .environmentObject(cloudManager)
+                    .environmentObject(campaignState)
+            }
+        }
+    }
+    
+    // MARK: - Cloud Status Helpers
+    
+    private var cloudStatusIcon: String {
+        switch cloudManager.status {
+        case .available, .synced:
+            return "checkmark.icloud.fill"
+        case .syncing:
+            return "arrow.triangle.2.circlepath.icloud.fill"
+        case .unavailable, .error:
+            return "xmark.icloud.fill"
+        case .conflict:
+            return "exclamationmark.icloud.fill"
+        }
+    }
+    
+    private var cloudStatusColor: Color {
+        switch cloudManager.status {
+        case .available, .synced:
+            return .neonGreen
+        case .syncing:
+            return .neonCyan
+        case .unavailable, .error:
+            return .neonRed
+        case .conflict:
+            return .neonAmber
         }
     }
 }

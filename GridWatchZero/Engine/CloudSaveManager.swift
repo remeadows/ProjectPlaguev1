@@ -4,6 +4,11 @@
 
 import Foundation
 import Combine
+import os.log
+
+// MARK: - Cloud Save Logger
+
+private let cloudLogger = Logger(subsystem: "GridWatchZero", category: "CloudSync")
 
 // MARK: - Cloud Save Status
 
@@ -102,11 +107,16 @@ class CloudSaveManager: ObservableObject {
     // MARK: - Setup
 
     private func setupCloudSync() {
+        cloudLogger.info("🔵 setupCloudSync() started")
+        
         // Check if iCloud is available
-        guard FileManager.default.ubiquityIdentityToken != nil else {
+        let token = FileManager.default.ubiquityIdentityToken
+        guard token != nil else {
+            cloudLogger.error("❌ iCloud unavailable: ubiquityIdentityToken is nil")
             status = .unavailable(reason: "iCloud not signed in")
             return
         }
+        cloudLogger.info("✅ iCloud token present")
 
         // Register for external changes
         changeObserver = NotificationCenter.default.addObserver(
@@ -116,33 +126,48 @@ class CloudSaveManager: ObservableObject {
         ) { [weak self] notification in
             // Extract only the change reason (Int) to avoid Sendable issues with [AnyHashable: Any]
             let changeReason = notification.userInfo?[NSUbiquitousKeyValueStoreChangeReasonKey] as? Int
+            cloudLogger.info("📨 External change notification received, reason: \(changeReason ?? -1)")
             Task { @MainActor [weak self] in
                 self?.handleExternalChange(reason: changeReason)
             }
         }
+        cloudLogger.info("✅ External change observer registered")
 
         // Synchronize to get latest data
         let synchronized = cloudStore.synchronize()
+        cloudLogger.info("🔄 cloudStore.synchronize() returned: \(synchronized)")
 
         if synchronized {
             status = .available
             // Check for existing cloud data
-            if let _ = cloudStore.data(forKey: cloudKey) {
+            if let existingData = cloudStore.data(forKey: cloudKey) {
+                cloudLogger.info("✅ Found existing cloud data: \(existingData.count) bytes")
                 lastSyncDate = UserDefaults.standard.object(forKey: localTimestampKey) as? Date
                 if let date = lastSyncDate {
                     status = .synced(lastSync: date)
+                    cloudLogger.info("✅ Status: synced, lastSync: \(date)")
                 }
+            } else {
+                cloudLogger.info("ℹ️ No existing cloud data found (first sync)")
             }
         } else {
+            cloudLogger.error("❌ cloudStore.synchronize() returned false")
             status = .unavailable(reason: "iCloud sync failed")
         }
+        
+        cloudLogger.info("🔵 setupCloudSync() completed, status: \(self.status.displayText)")
     }
 
     // MARK: - Sync Operations
 
     /// Upload current progress to iCloud
     func uploadProgress(_ progress: CampaignProgress, storyState: StoryState) {
-        guard status.isAvailable else { return }
+        cloudLogger.info("📤 uploadProgress() called, levels: \(progress.completedLevels.count)")
+        
+        guard status.isAvailable else {
+            cloudLogger.warning("⚠️ Upload skipped: status not available (\(self.status.displayText))")
+            return
+        }
 
         status = .syncing
 
@@ -150,31 +175,46 @@ class CloudSaveManager: ObservableObject {
 
         do {
             let data = try JSONEncoder().encode(syncable)
+            cloudLogger.info("📦 Encoded data: \(data.count) bytes")
             cloudStore.set(data, forKey: cloudKey)
 
             // Force sync
-            if cloudStore.synchronize() {
+            let syncResult = cloudStore.synchronize()
+            cloudLogger.info("🔄 Upload synchronize() returned: \(syncResult)")
+            
+            if syncResult {
                 let now = Date()
                 UserDefaults.standard.set(now, forKey: localTimestampKey)
                 lastSyncDate = now
                 status = .synced(lastSync: now)
+                cloudLogger.info("✅ Upload successful at \(now)")
             } else {
+                cloudLogger.error("❌ Upload failed: synchronize() returned false")
                 status = .error(message: "Upload failed")
             }
         } catch {
+            cloudLogger.error("❌ Encoding failed: \(error.localizedDescription)")
             status = .error(message: "Encoding failed")
         }
     }
 
     /// Download progress from iCloud
     func downloadProgress() -> SyncableProgress? {
+        cloudLogger.info("📥 downloadProgress() called")
+        
         guard let data = cloudStore.data(forKey: cloudKey) else {
+            cloudLogger.info("ℹ️ No cloud data found for key: \(self.cloudKey)")
             return nil
         }
+        
+        cloudLogger.info("📦 Found cloud data: \(data.count) bytes")
 
         do {
-            return try JSONDecoder().decode(SyncableProgress.self, from: data)
+            let decoded = try JSONDecoder().decode(SyncableProgress.self, from: data)
+            cloudLogger.info("✅ Decoded successfully: \(decoded.progress.completedLevels.count) levels, device: \(decoded.deviceId.prefix(8))...")
+            return decoded
         } catch {
+            cloudLogger.error("❌ Decoding failed: \(error.localizedDescription)")
             status = .error(message: "Decoding failed")
             return nil
         }

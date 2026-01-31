@@ -38,6 +38,93 @@ Modified `performInitialCloudSync()` in `NavigationCoordinator.swift` to:
 
 **Closed**: 2026-01-21
 
+### ISSUE-017: iCloud Sync Failing
+**Status**: 🔄 In Progress
+**Severity**: Critical
+**Reported**: 2026-01-31
+**Description**: iCloud sync is failing despite correct project configuration. Cloud saves not syncing between devices.
+**Impact**: Players cannot sync progress across devices. Critical for multi-device users.
+
+**Diagnostic Tools Added (2026-01-31):**
+- Created `CloudDiagnosticView.swift` - In-app diagnostic UI accessible via Settings → iCloud Diagnostics
+- Added verbose logging to `CloudSaveManager.swift` using `os.log` (filter: "CloudSync")
+- Diagnostic features:
+  - Quick status check (iCloud token, cloud availability, last sync, conflicts)
+  - Full diagnostics button (tests all iCloud components)
+  - Force Sync button (manual sync trigger)
+  - KV Store Write/Read test (validates NSUbiquitousKeyValueStore)
+  - Detailed diagnostic log with timestamps
+
+**How to Access Diagnostics:**
+1. From Campaign Hub: Tap Settings (gear icon) → iCloud Sync section → "iCloud Diagnostics"
+2. From Gameplay: Tap Settings (gear icon) → iCloud Sync section → "iCloud Diagnostics"
+
+**Console Logging:**
+Run app in Xcode and filter console for "CloudSync" to see detailed iCloud operations.
+
+**Configuration Verified (All Correct):**
+- `GridWatchZero.entitlements` exists with `com.apple.developer.ubiquity-kvstore-identifier`
+- `CODE_SIGN_ENTITLEMENTS` linked in both Debug and Release configurations
+- Team ID: B2U8T6A2Y3
+- Bundle ID: WarSignal.GridWatchZero
+- KV Store ID: `$(TeamIdentifierPrefix)$(CFBundleIdentifier)` → `B2U8T6A2Y3.WarSignal.GridWatchZero`
+
+**Diagnostic Steps Required:**
+1. **Check device iCloud status:**
+   - Settings → Apple ID → iCloud → iCloud Drive (must be ON)
+   - Settings → Apple ID → iCloud → Apps Using iCloud → Grid Watch Zero (must be ON)
+
+2. **Check Xcode Console for errors:**
+   - Run app in Xcode, filter console for "iCloud" or "ubiquit"
+   - Look for: `NSUbiquitousKeyValueStore` errors
+
+3. **Verify provisioning profile:**
+   - Xcode → Signing & Capabilities → Verify iCloud capability shows green checkmark
+   - If red X: Click "Try Again" or regenerate provisioning profile in Developer Portal
+
+4. **Test NSUbiquitousKeyValueStore directly:**
+   ```swift
+   // Add to AppDelegate or test
+   let store = NSUbiquitousKeyValueStore.default
+   let synced = store.synchronize()
+   print("iCloud KV sync result: \(synced)")
+   print("iCloud token: \(FileManager.default.ubiquityIdentityToken != nil)")
+   ```
+
+5. **Check CloudSaveManager status:**
+   - Add breakpoint in `setupCloudSync()` 
+   - Verify `FileManager.default.ubiquityIdentityToken` is not nil
+   - Verify `cloudStore.synchronize()` returns true
+
+**Potential Causes:**
+- [ ] Device not signed into iCloud
+- [ ] iCloud Drive disabled on device
+- [ ] App not enabled in iCloud settings
+- [ ] Provisioning profile needs regeneration after entitlements change
+- [ ] Network connectivity issue
+- [ ] iCloud quota exceeded
+- [ ] Simulator vs device difference (Simulator iCloud can be flaky)
+
+**Next Steps:**
+1. ✅ Created in-app diagnostic view
+2. ✅ Added verbose logging to CloudSaveManager
+3. Run diagnostic view on device to capture specific error
+4. Check Xcode console for "CloudSync" log entries
+5. Test on physical device (not simulator)
+6. If still failing: regenerate provisioning profile in Developer Portal
+
+**Files Added:**
+- `Views/CloudDiagnosticView.swift` - In-app iCloud diagnostic UI
+
+**Files Modified:**
+- `Engine/CloudSaveManager.swift` - Added os.log verbose logging
+- `Views/SettingsView.swift` - Added iCloud Sync section with diagnostics link
+- `Views/HomeView.swift` - Pass environment objects to SettingsView
+- `Views/DashboardView.swift` - Added cloudManager/campaignState environment objects
+- `Engine/NavigationCoordinator.swift` - Pass environment objects to DashboardView
+
+---
+
 ### ISSUE-007: Cloud Save Does Not Work
 **Status**: ✅ Fixed
 **Severity**: Critical

@@ -542,6 +542,8 @@ struct GameplayContainerView: View {
             // Main gameplay (existing DashboardView)
             DashboardView(onCampaignExit: levelId != nil ? { showExitConfirm = true } : nil)
                 .environmentObject(gameEngine)
+                .environmentObject(campaignState)
+                .environmentObject(CloudSaveManager.shared)
                 // Add bottom padding for mission objectives bar
                 .safeAreaInset(edge: .bottom) {
                     if levelId != nil, let progress = gameEngine.victoryProgress {
