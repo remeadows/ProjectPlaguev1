@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct Project_PlagueApp: App {
+struct GridWatchZeroApp: App {
 
     init() {
         // Migrate save data from old "ProjectPlague" brand to new "GridWatchZero" brand

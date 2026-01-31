@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		860691102F1F21FB0091E203 /* Project Plague.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Project Plague.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		860691102F1F21FB0091E203 /* GridWatchZero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GridWatchZero.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		860691122F1F21FB0091E203 /* Project Plague */ = {
+		860691122F1F21FB0091E203 /* GridWatchZero */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Project Plague";
+			path = "GridWatchZero";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		860691072F1F21FB0091E203 = {
 			isa = PBXGroup;
 			children = (
-				860691122F1F21FB0091E203 /* Project Plague */,
+				860691122F1F21FB0091E203 /* GridWatchZero */,
 				860691112F1F21FB0091E203 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +40,7 @@
 		860691112F1F21FB0091E203 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				860691102F1F21FB0091E203 /* Project Plague.app */,
+				860691102F1F21FB0091E203 /* GridWatchZero.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8606910F2F1F21FB0091E203 /* Project Plague */ = {
+		8606910F2F1F21FB0091E203 /* GridWatchZero */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8606911B2F1F21FC0091E203 /* Build configuration list for PBXNativeTarget "Project Plague" */;
+			buildConfigurationList = 8606911B2F1F21FC0091E203 /* Build configuration list for PBXNativeTarget "GridWatchZero" */;
 			buildPhases = (
 				8606910C2F1F21FB0091E203 /* Sources */,
 				8606910D2F1F21FB0091E203 /* Frameworks */,
@@ -61,13 +61,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				860691122F1F21FB0091E203 /* Project Plague */,
+				860691122F1F21FB0091E203 /* GridWatchZero */,
 			);
-			name = "Project Plague";
+			name = "GridWatchZero";
 			packageProductDependencies = (
 			);
-			productName = "Project Plague";
-			productReference = 860691102F1F21FB0091E203 /* Project Plague.app */;
+			productName = "GridWatchZero";
+			productReference = 860691102F1F21FB0091E203 /* GridWatchZero.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -85,7 +85,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8606910B2F1F21FB0091E203 /* Build configuration list for PBXProject "Project Plague" */;
+			buildConfigurationList = 8606910B2F1F21FB0091E203 /* Build configuration list for PBXProject "GridWatchZero" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8606910F2F1F21FB0091E203 /* Project Plague */,
+				8606910F2F1F21FB0091E203 /* GridWatchZero */,
 			);
 		};
 /* End PBXProject section */
@@ -317,7 +317,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8606910B2F1F21FB0091E203 /* Build configuration list for PBXProject "Project Plague" */ = {
+		8606910B2F1F21FB0091E203 /* Build configuration list for PBXProject "GridWatchZero" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				860691192F1F21FC0091E203 /* Debug */,
@@ -326,7 +326,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8606911B2F1F21FC0091E203 /* Build configuration list for PBXNativeTarget "Project Plague" */ = {
+		8606911B2F1F21FC0091E203 /* Build configuration list for PBXNativeTarget "GridWatchZero" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8606911C2F1F21FC0091E203 /* Debug */,
