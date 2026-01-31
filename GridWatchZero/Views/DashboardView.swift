@@ -253,13 +253,15 @@ struct DashboardView: View {
             }
 
             // Alert banner overlay (floats on top without pushing content)
-            VStack {
-                AlertBannerView(event: showingEvent)
-                    .padding(.top, 60)  // Below the header
-                Spacer()
-            }
-            .allowsHitTesting(false)
-            .zIndex(100)
+            // Uses .overlay modifier approach for true floating behavior
+            Color.clear
+                .frame(height: 0)
+                .overlay(alignment: .top) {
+                    AlertBannerView(event: showingEvent)
+                        .padding(.top, 60)  // Below the header
+                }
+                .allowsHitTesting(false)
+                .zIndex(100)
         }
         .offset(x: reduceMotion ? 0 : screenShake)
     }
@@ -1188,13 +1190,15 @@ struct DashboardView: View {
             }  // End of main VStack
 
             // Alert banner overlay (floats on top without pushing content)
-            VStack {
-                AlertBannerView(event: showingEvent)
-                    .padding(.top, tutorialManager.shouldShowTutorial && !tutorialManager.isShowingDialogue ? 44 : 0)
-                Spacer()
-            }
-            .allowsHitTesting(false)
-            .zIndex(100)
+            // Uses .overlay modifier approach for true floating behavior
+            Color.clear
+                .frame(height: 0)
+                .overlay(alignment: .top) {
+                    AlertBannerView(event: showingEvent)
+                        .padding(.top, tutorialManager.shouldShowTutorial && !tutorialManager.isShowingDialogue ? 44 : 0)
+                }
+                .allowsHitTesting(false)
+                .zIndex(100)
         }  // End of ZStack
         .offset(x: reduceMotion ? 0 : screenShake)
     }

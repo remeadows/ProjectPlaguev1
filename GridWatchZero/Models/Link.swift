@@ -34,6 +34,9 @@ struct TransportLink: LinkProtocol {
     var name: String
     var level: Int
 
+    /// Factory unit type ID for checkpoint restoration
+    let unitTypeId: String
+
     /// Base bandwidth at level 1
     let baseBandwidth: Double
 
@@ -49,13 +52,16 @@ struct TransportLink: LinkProtocol {
         name: String,
         level: Int = 1,
         baseBandwidth: Double,
-        baseLatency: Int
+        baseLatency: Int,
+        unitTypeId: String? = nil
     ) {
         self.id = id
         self.name = name
         self.level = level
         self.baseBandwidth = baseBandwidth
         self.baseLatency = baseLatency
+        // If unitTypeId not provided, look up from unit catalog by name
+        self.unitTypeId = unitTypeId ?? UnitFactory.unitId(forName: name) ?? "link_t1_copper_vpn"
     }
 
     var bandwidth: Double {

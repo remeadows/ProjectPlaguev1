@@ -1110,6 +1110,11 @@ extension UnitFactory {
     static func unit(withId id: String) -> UnitInfo? {
         allUnits.first { $0.id == id }
     }
+
+    /// Look up unit type ID by unit name
+    static func unitId(forName name: String) -> String? {
+        allUnits.first { $0.name == name }?.id
+    }
 }
 
 // MARK: - Unit Creation by ID

@@ -15,15 +15,21 @@ struct AlertBannerView: View {
     }
 
     var body: some View {
-        ZStack {
+        // Banner content that slides in/out
+        // Wrapped in Group to ensure consistent sizing
+        Group {
             if let event = event, shouldShowBanner(for: event) {
                 bannerContent(for: event)
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .top).combined(with: .opacity),
+                        removal: .opacity
+                    ))
             }
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: shouldShow ? nil : 0, alignment: .top)
+        // Fixed frame ensures no layout shift when content appears/disappears
+        .frame(maxWidth: .infinity, minHeight: 0, maxHeight: shouldShow ? .infinity : 0)
         .clipped()
-        .animation(.easeInOut(duration: 0.2), value: event)
+        .animation(.easeInOut(duration: 0.25), value: shouldShow)
     }
 
     private func shouldShowBanner(for event: GameEvent) -> Bool {

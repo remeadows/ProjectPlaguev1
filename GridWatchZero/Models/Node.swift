@@ -43,6 +43,9 @@ struct SourceNode: NodeProtocol {
     var currentLoad: Double = 0
     var isOnline: Bool = true
 
+    /// Factory unit type ID for checkpoint restoration
+    let unitTypeId: String
+
     /// Base production per tick at level 1
     let baseProduction: Double
 
@@ -54,13 +57,16 @@ struct SourceNode: NodeProtocol {
         name: String,
         level: Int = 1,
         baseProduction: Double,
-        outputType: ResourceType
+        outputType: ResourceType,
+        unitTypeId: String? = nil
     ) {
         self.id = id
         self.name = name
         self.level = level
         self.baseProduction = baseProduction
         self.outputType = outputType
+        // If unitTypeId not provided, look up from unit catalog by name
+        self.unitTypeId = unitTypeId ?? UnitFactory.unitId(forName: name) ?? "source_t1_mesh_sniffer"
     }
 
     var maxCapacity: Double {
@@ -101,6 +107,9 @@ struct SinkNode: NodeProtocol {
     var currentLoad: Double = 0
     var isOnline: Bool = true
 
+    /// Factory unit type ID for checkpoint restoration
+    let unitTypeId: String
+
     /// Base processing rate per tick
     let baseProcessingRate: Double
 
@@ -115,13 +124,16 @@ struct SinkNode: NodeProtocol {
         name: String,
         level: Int = 1,
         baseProcessingRate: Double,
-        conversionRate: Double
+        conversionRate: Double,
+        unitTypeId: String? = nil
     ) {
         self.id = id
         self.name = name
         self.level = level
         self.baseProcessingRate = baseProcessingRate
         self.conversionRate = conversionRate
+        // If unitTypeId not provided, look up from unit catalog by name
+        self.unitTypeId = unitTypeId ?? UnitFactory.unitId(forName: name) ?? "sink_t1_data_broker"
     }
 
     var maxCapacity: Double {
@@ -176,6 +188,9 @@ struct FirewallNode: NodeProtocol {
     var currentLoad: Double = 0  // Current damage absorbed this tick
     var isOnline: Bool = true
 
+    /// Factory unit type ID for checkpoint restoration
+    let unitTypeId: String
+
     /// Base health pool at level 1
     let baseHealth: Double
 
@@ -190,7 +205,8 @@ struct FirewallNode: NodeProtocol {
         name: String,
         level: Int = 1,
         baseHealth: Double,
-        baseDamageReduction: Double = 0.2
+        baseDamageReduction: Double = 0.2,
+        unitTypeId: String? = nil
     ) {
         self.id = id
         self.name = name
@@ -198,6 +214,8 @@ struct FirewallNode: NodeProtocol {
         self.baseHealth = baseHealth
         self.currentHealth = baseHealth * Double(level)
         self.baseDamageReduction = baseDamageReduction
+        // If unitTypeId not provided, look up from unit catalog by name
+        self.unitTypeId = unitTypeId ?? UnitFactory.unitId(forName: name) ?? "defense_t1_basic_firewall"
     }
 
     var maxCapacity: Double {

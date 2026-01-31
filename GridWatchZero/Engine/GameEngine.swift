@@ -1493,9 +1493,13 @@ final class GameEngine: ObservableObject {
             attacksSurvived: levelAttacksSurvived,
             damageBlocked: levelDamageBlocked,
             creditsEarned: levelCreditsEarned,
+            sourceUnitId: source.unitTypeId,
             sourceLevel: source.level,
+            linkUnitId: link.unitTypeId,
             linkLevel: link.level,
+            sinkUnitId: sink.unitTypeId,
             sinkLevel: sink.level,
+            firewallUnitId: firewall?.unitTypeId,
             firewallHealth: firewall?.currentHealth,
             firewallMaxHealth: firewall?.maxHealth,
             firewallLevel: firewall?.level,
@@ -1558,25 +1562,42 @@ final class GameEngine: ObservableObject {
             unlockState.unlock(unitId)
         }
 
-        // Restore nodes with saved levels
-        source = UnitFactory.createPublicMeshSniffer()
+        // Restore nodes by their actual unit ID (not just T1 default)
+        if let restoredSource = UnitFactory.createSource(fromId: checkpoint.sourceUnitId) {
+            source = restoredSource
+        } else {
+            source = UnitFactory.createPublicMeshSniffer()
+        }
         for _ in 1..<checkpoint.sourceLevel {
             source.upgrade()
         }
 
-        link = UnitFactory.createCopperVPNTunnel()
+        if let restoredLink = UnitFactory.createLink(fromId: checkpoint.linkUnitId) {
+            link = restoredLink
+        } else {
+            link = UnitFactory.createCopperVPNTunnel()
+        }
         for _ in 1..<checkpoint.linkLevel {
             link.upgrade()
         }
 
-        sink = UnitFactory.createDataBroker()
+        if let restoredSink = UnitFactory.createSink(fromId: checkpoint.sinkUnitId) {
+            sink = restoredSink
+        } else {
+            sink = UnitFactory.createDataBroker()
+        }
         for _ in 1..<checkpoint.sinkLevel {
             sink.upgrade()
         }
 
-        // Restore firewall if it was present
-        if let fwHealth = checkpoint.firewallHealth {
-            firewall = UnitFactory.createBasicFirewall()
+        // Restore firewall if it was present (by unit ID)
+        if let fwUnitId = checkpoint.firewallUnitId,
+           let fwHealth = checkpoint.firewallHealth {
+            if let restoredFirewall = UnitFactory.createFirewall(fromId: fwUnitId) {
+                firewall = restoredFirewall
+            } else {
+                firewall = UnitFactory.createBasicFirewall()
+            }
             // Restore firewall level (maxHealth is computed from level, so upgrading restores it)
             if let fwLevel = checkpoint.firewallLevel {
                 for _ in 1..<fwLevel {

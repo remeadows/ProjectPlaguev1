@@ -187,23 +187,23 @@ class LevelDatabase {
             name: "Enterprise Network",
             subtitle: "Level 6",
             description: """
-            Fortune 500 infrastructure. Being HAMMERED by every threat.
+            Fortune 500 infrastructure. The threats are intensifying.
 
-            Neural hijacks. Quantum breaches. Malus is unleashing \
-            everything in his arsenal.
+            Neural hijacks. Quantum breaches. Malus is escalating \
+            his attacks.
 
             Neural Mesh Defense and Helix integration are your only hope.
             """,
-            startingCredits: 0,
-            startingThreatLevel: .hammered,
+            startingCredits: 1000,  // Starting credits to establish initial defenses
+            startingThreatLevel: .priority,  // Reduced from .hammered for smoother progression
             availableTiers: [1, 2, 3, 4, 5, 6],
             victoryConditions: VictoryConditions(
                 requiredDefenseTier: 6,
-                requiredDefensePoints: 1200,
-                requiredRiskLevel: .signal,
-                requiredCredits: 15000000,
-                requiredAttacksSurvived: 35,
-                requiredReportsSent: 160,      // Send 160 intel reports
+                requiredDefensePoints: 1000,  // Reduced from 1200
+                requiredRiskLevel: .blip,     // Changed from .signal to .blip
+                requiredCredits: 10000000,    // Reduced from 15M to 10M
+                requiredAttacksSurvived: 25,  // Reduced from 35
+                requiredReportsSent: 100,     // Reduced from 160
                 timeLimit: nil
             ),
             unlockRequirement: .previousLevel(5),
@@ -211,7 +211,7 @@ class LevelDatabase {
             introStoryId: "level6_intro",
             victoryStoryId: "level6_victory",
             insaneModifiers: .standard,
-            minimumAttackChance: 2.0  // Minimum 2.0% attack chance per tick
+            minimumAttackChance: 1.5  // Reduced from 2.0%
         ),
 
         // LEVEL 7: City Network
@@ -220,23 +220,23 @@ class LevelDatabase {
             name: "City Network",
             subtitle: "Level 7",
             description: """
-            CRITICAL threat level. The city grid is under siege.
+            The city grid is under siege.
 
             Malus has revealed his true power. Quantum breaches cascade \
             across every node. But this is not the end.
 
             Channel Helix. Prepare for what comes next.
             """,
-            startingCredits: 0,
-            startingThreatLevel: .critical,
+            startingCredits: 2000,  // Starting credits - critical for surviving early attacks
+            startingThreatLevel: .hammered,  // Reduced from .critical for fairness
             availableTiers: [1, 2, 3, 4, 5, 6],
             victoryConditions: VictoryConditions(
                 requiredDefenseTier: 6,
-                requiredDefensePoints: 2000,
-                requiredRiskLevel: .blip,
-                requiredCredits: 40000000,
-                requiredAttacksSurvived: 50,
-                requiredReportsSent: 320,
+                requiredDefensePoints: 1500,  // Reduced from 2000
+                requiredRiskLevel: .ghost,    // Changed from .blip to .ghost
+                requiredCredits: 25000000,    // Reduced from 40M to 25M
+                requiredAttacksSurvived: 35,  // Reduced from 50
+                requiredReportsSent: 200,     // Reduced from 320
                 timeLimit: nil
             ),
             unlockRequirement: .previousLevel(6),
@@ -248,7 +248,7 @@ class LevelDatabase {
                 attackDamageMultiplier: 1.5,
                 creditIncomeMultiplier: 0.7
             ),
-            minimumAttackChance: 2.5
+            minimumAttackChance: 2.0  // Reduced from 2.5%
         ),
 
         // ============================================

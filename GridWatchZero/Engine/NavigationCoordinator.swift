@@ -510,8 +510,13 @@ struct RootNavigationView: View {
                 coordinator.saveStoryState()
                 AmbientAudioManager.shared.pause()
             } else if newPhase == .active && oldPhase != .active {
-                // Resume music when returning to foreground
+                // Resume music and game when returning to foreground
                 AmbientAudioManager.shared.resume()
+
+                // Auto-resume the game engine if we're on a gameplay screen
+                if case .gameplay = coordinator.currentScreen {
+                    gameEngine.start()
+                }
             }
         }
     }

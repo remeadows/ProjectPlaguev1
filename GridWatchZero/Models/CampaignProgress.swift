@@ -20,10 +20,14 @@ struct LevelCheckpoint: Codable {
     let damageBlocked: Double
     let creditsEarned: Double  // Track total earned for level objective
 
-    // Node states (simplified for checkpoint)
+    // Node states - save actual unit IDs and levels for proper restoration
+    let sourceUnitId: String
     let sourceLevel: Int
+    let linkUnitId: String
     let linkLevel: Int
+    let sinkUnitId: String
     let sinkLevel: Int
+    let firewallUnitId: String?
     let firewallHealth: Double?
     let firewallMaxHealth: Double?
     let firewallLevel: Int?
