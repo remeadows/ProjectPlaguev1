@@ -1,5 +1,5 @@
 // Resource.swift
-// ProjectPlague
+// GridWatchZero
 // Core resource types flowing through the neural grid
 
 import Foundation

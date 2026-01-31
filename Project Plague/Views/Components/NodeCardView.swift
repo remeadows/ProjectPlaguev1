@@ -1,5 +1,5 @@
 // NodeCardView.swift
-// ProjectPlague
+// GridWatchZero
 // Reusable card component for displaying nodes
 
 import SwiftUI

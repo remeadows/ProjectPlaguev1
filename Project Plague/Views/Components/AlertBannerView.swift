@@ -1,5 +1,5 @@
 // AlertBannerView.swift
-// ProjectPlague
+// GridWatchZero
 // Animated alert banner for attacks and Malus messages
 
 import SwiftUI

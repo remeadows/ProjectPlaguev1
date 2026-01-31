@@ -1,5 +1,5 @@
 // TutorialOverlayView.swift
-// ProjectPlague
+// GridWatchZero
 // Tutorial dialogue and UI highlighting overlay
 
 import SwiftUI

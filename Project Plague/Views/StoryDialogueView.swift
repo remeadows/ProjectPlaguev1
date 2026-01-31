@@ -1,5 +1,5 @@
 // StoryDialogueView.swift
-// ProjectPlague
+// GridWatchZero
 // Character dialogue presentation with typewriter effect
 
 import SwiftUI

@@ -1,5 +1,5 @@
 // ThreatIndicatorView.swift
-// ProjectPlague
+// GridWatchZero
 // Visual indicator for current threat level, NetDefense, and effective Risk
 
 import SwiftUI
@@ -33,14 +33,8 @@ struct ThreatIndicatorView: View {
     }
 
     private func colorFor(_ level: ThreatLevel) -> Color {
-        switch level {
-        case .ghost: return .dimGreen
-        case .blip: return .neonGreen
-        case .signal: return .neonCyan
-        case .target, .priority: return .neonAmber
-        case .hunted, .marked: return .neonRed
-        case .targeted, .hammered, .critical: return .neonRed
-        }
+        // Use the tier color from Theme.swift for T7+ threat levels
+        Color.tierColor(named: level.color)
     }
 
     var body: some View {

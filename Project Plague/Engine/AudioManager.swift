@@ -1,5 +1,5 @@
 // AudioManager.swift
-// ProjectPlague
+// GridWatchZero
 // Sound effects and audio management
 
 import AVFoundation
@@ -30,6 +30,7 @@ final class AudioManager: @unchecked Sendable {
     static let shared = AudioManager()
 
     private var isSoundEnabled: Bool = true
+    private var isHapticsEnabled: Bool = true
     private var soundVolume: Float = 0.7
 
     // Cache for preloaded audio players
@@ -101,7 +102,8 @@ final class AudioManager: @unchecked Sendable {
             }
         }
 
-        // Add haptic feedback for important events
+        // Add haptic feedback for important events (if enabled)
+        guard isHapticsEnabled else { return }
         Task { @MainActor in
             switch sound {
             case .attackIncoming, .warning:
@@ -139,6 +141,14 @@ final class AudioManager: @unchecked Sendable {
         isSoundEnabled = enabled
     }
 
+    func setHapticsEnabled(_ enabled: Bool) {
+        isHapticsEnabled = enabled
+    }
+
+    func toggleHaptics() {
+        isHapticsEnabled.toggle()
+    }
+
     func setVolume(_ volume: Float) {
         soundVolume = max(0, min(1, volume))
         // Update preloaded players
@@ -149,6 +159,10 @@ final class AudioManager: @unchecked Sendable {
 
     var isEnabled: Bool {
         isSoundEnabled
+    }
+
+    var hapticsEnabled: Bool {
+        isHapticsEnabled
     }
 }
 
@@ -248,18 +262,21 @@ final class AmbientAudioManager: @unchecked Sendable {
 struct HapticManager {
     @MainActor
     static func impact(_ style: UIImpactFeedbackGenerator.FeedbackStyle = .medium) {
+        guard AudioManager.shared.hapticsEnabled else { return }
         let generator = UIImpactFeedbackGenerator(style: style)
         generator.impactOccurred()
     }
 
     @MainActor
     static func notification(_ type: UINotificationFeedbackGenerator.FeedbackType) {
+        guard AudioManager.shared.hapticsEnabled else { return }
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(type)
     }
 
     @MainActor
     static func selection() {
+        guard AudioManager.shared.hapticsEnabled else { return }
         let generator = UISelectionFeedbackGenerator()
         generator.selectionChanged()
     }

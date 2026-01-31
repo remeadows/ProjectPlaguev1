@@ -1,5 +1,5 @@
 // CloudSaveManager.swift
-// ProjectPlague
+// GridWatchZero
 // iCloud sync for campaign progress using NSUbiquitousKeyValueStore
 
 import Foundation
@@ -51,11 +51,11 @@ struct SyncableProgress: Codable {
     let deviceId: String
 
     static var currentDeviceId: String {
-        if let id = UserDefaults.standard.string(forKey: "ProjectPlague.DeviceId") {
+        if let id = UserDefaults.standard.string(forKey: "GridWatchZero.DeviceId") {
             return id
         }
         let newId = UUID().uuidString
-        UserDefaults.standard.set(newId, forKey: "ProjectPlague.DeviceId")
+        UserDefaults.standard.set(newId, forKey: "GridWatchZero.DeviceId")
         return newId
     }
 
@@ -80,10 +80,10 @@ class CloudSaveManager: ObservableObject {
 
     // iCloud store
     private let cloudStore = NSUbiquitousKeyValueStore.default
-    private let cloudKey = "ProjectPlague.SyncableProgress.v1"
+    private let cloudKey = "GridWatchZero.SyncableProgress.v1"
 
     // Local keys
-    private let localTimestampKey = "ProjectPlague.LastCloudSync"
+    private let localTimestampKey = "GridWatchZero.LastCloudSync"
 
     // Observers
     private var changeObserver: NSObjectProtocol?
@@ -339,6 +339,6 @@ struct SyncConflict {
 // MARK: - Notifications
 
 extension Notification.Name {
-    static let cloudDataChanged = Notification.Name("ProjectPlague.CloudDataChanged")
+    static let cloudDataChanged = Notification.Name("GridWatchZero.CloudDataChanged")
 }
 

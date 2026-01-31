@@ -1,9 +1,10 @@
-# App Store Metadata - Project Plague: Neural Grid
+# App Store Metadata - Grid Watch Zero: Neural Grid
 
 ## App Information
 
-**App Name:** Project Plague: Neural Grid
-**Bundle ID:** REMeadows.Project-Plague
+**App Name:** Grid Watch Zero: Neural Grid
+**Developer:** War Signal
+**Bundle ID:** WarSignal.GridWatchZero
 **Category:** Games > Strategy
 **Version:** 1.0.0
 **Build:** 1
@@ -20,7 +21,7 @@ Master cyber defense in this strategic idle game. Build your network, deploy fir
 
 ### Full Description (4000 chars max)
 
-**PROJECT PLAGUE: NEURAL GRID**
+**GRID WATCH ZERO: NEURAL GRID**
 
 You are a grey-hat data broker operating in the shadows of the digital underground. Your mission: harvest data, grow your network, and survive the relentless attacks of Malus - a rogue AI that has marked you for termination.
 
@@ -36,8 +37,8 @@ You are a grey-hat data broker operating in the shadows of the digital undergrou
 • Track Malus attack patterns with Intelligence gathering
 • React to critical threats with strategic defense deployment
 
-**7-LEVEL CAMPAIGN**
-• Progress from protecting a simple home network to defending critical infrastructure
+**20-LEVEL CAMPAIGN**
+• Progress from protecting a simple home network to defending reality itself
 • Each level introduces new mechanics and challenges
 • Insane mode for hardcore players seeking the ultimate challenge
 • Story moments featuring memorable characters: Rusty, Tish, Fl3x, and the mysterious Helix

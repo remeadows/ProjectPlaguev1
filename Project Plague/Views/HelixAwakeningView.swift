@@ -1,5 +1,5 @@
 // HelixAwakeningView.swift
-// ProjectPlague
+// GridWatchZero
 // Cinematic sequence for Helix awakening after Level 7 completion
 
 import SwiftUI

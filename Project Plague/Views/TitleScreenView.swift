@@ -1,5 +1,5 @@
 // TitleScreenView.swift
-// ProjectPlague
+// GridWatchZero
 // Title screen with logo, version, and developer credit
 
 import SwiftUI
@@ -66,23 +66,23 @@ struct TitleScreenView: View {
 
     private var titleSection: some View {
         VStack(spacing: 8) {
-            // Glitch layers for title
+            // Glitch layers for "GRID WATCH"
             ZStack {
                 // Red offset layer
-                Text("PROJECT")
-                    .font(.system(size: 48, weight: .black, design: .monospaced))
+                Text("GRID WATCH")
+                    .font(.system(size: 42, weight: .black, design: .monospaced))
                     .foregroundColor(.neonRed.opacity(0.5))
                     .offset(x: glitchOffset, y: -1)
 
                 // Cyan offset layer
-                Text("PROJECT")
-                    .font(.system(size: 48, weight: .black, design: .monospaced))
+                Text("GRID WATCH")
+                    .font(.system(size: 42, weight: .black, design: .monospaced))
                     .foregroundColor(.neonCyan.opacity(0.5))
                     .offset(x: -glitchOffset, y: 1)
 
                 // Main text
-                Text("PROJECT")
-                    .font(.system(size: 48, weight: .black, design: .monospaced))
+                Text("GRID WATCH")
+                    .font(.system(size: 42, weight: .black, design: .monospaced))
                     .foregroundColor(.neonGreen)
             }
             .glow(.neonGreen, radius: 12)
@@ -90,19 +90,19 @@ struct TitleScreenView: View {
 
             ZStack {
                 // Red offset layer
-                Text("PLAGUE")
+                Text("ZERO")
                     .font(.system(size: 56, weight: .black, design: .monospaced))
                     .foregroundColor(.neonRed.opacity(0.5))
                     .offset(x: -glitchOffset, y: 1)
 
                 // Cyan offset layer
-                Text("PLAGUE")
+                Text("ZERO")
                     .font(.system(size: 56, weight: .black, design: .monospaced))
                     .foregroundColor(.neonCyan.opacity(0.5))
                     .offset(x: glitchOffset, y: -1)
 
                 // Main text
-                Text("PLAGUE")
+                Text("ZERO")
                     .font(.system(size: 56, weight: .black, design: .monospaced))
                     .foregroundColor(.neonAmber)
             }
@@ -148,7 +148,7 @@ struct TitleScreenView: View {
                     Text("DEVELOPED BY")
                         .font(.terminalMicro)
                         .foregroundColor(.terminalGray.opacity(0.6))
-                    Text("REMeadows")
+                    Text("War Signal")
                         .font(.terminalBody)
                         .foregroundColor(.neonGreen)
                 }

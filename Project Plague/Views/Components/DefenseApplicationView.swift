@@ -1,5 +1,5 @@
 // DefenseApplicationView.swift
-// ProjectPlague
+// GridWatchZero
 // UI components for defense application display
 
 import SwiftUI
@@ -863,12 +863,8 @@ struct ThreatCloudNode: View {
     let attackType: AttackType?
 
     private var threatColor: Color {
-        switch threatLevel {
-        case .ghost: return .terminalGray
-        case .blip, .signal: return .neonGreen
-        case .target, .priority: return .neonAmber
-        case .hunted, .marked, .targeted, .hammered, .critical: return .neonRed
-        }
+        // Use the tier color from Theme.swift for all threat levels
+        Color.tierColor(named: threatLevel.color)
     }
 
     var body: some View {

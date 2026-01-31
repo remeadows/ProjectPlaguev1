@@ -1,5 +1,5 @@
 // FirewallCardView.swift
-// ProjectPlague
+// GridWatchZero
 // UI card for firewall defense node
 
 import SwiftUI

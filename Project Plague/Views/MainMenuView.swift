@@ -1,5 +1,5 @@
 // MainMenuView.swift
-// ProjectPlague
+// GridWatchZero
 // Main menu with New Game / Continue Game options
 
 import SwiftUI
@@ -58,9 +58,9 @@ struct MainMenuView: View {
     private var headerSection: some View {
         VStack(spacing: 8) {
             HStack(spacing: 0) {
-                Text("PROJECT ")
+                Text("GRID WATCH ")
                     .foregroundColor(.neonGreen)
-                Text("PLAGUE")
+                Text("ZERO")
                     .foregroundColor(.neonAmber)
             }
             .font(.system(size: 28, weight: .bold, design: .monospaced))
@@ -150,7 +150,7 @@ struct MainMenuView: View {
 
     private func checkSaveData() {
         // Check if save data exists
-        hasSaveData = UserDefaults.standard.data(forKey: "ProjectPlague.GameState.v5") != nil
+        hasSaveData = UserDefaults.standard.data(forKey: "GridWatchZero.GameState.v6") != nil
     }
 }
 

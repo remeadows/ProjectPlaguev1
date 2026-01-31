@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  Project Plague
+//  Grid Watch Zero
 //
-//  Created by Russell Meadows on 1/19/26.
+//  Created by War Signal on 1/19/26.
 //
 
 import SwiftUI

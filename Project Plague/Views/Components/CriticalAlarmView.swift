@@ -1,5 +1,5 @@
 // CriticalAlarmView.swift
-// ProjectPlague
+// GridWatchZero
 // Full-screen alarm overlay when threat is critical
 
 import SwiftUI

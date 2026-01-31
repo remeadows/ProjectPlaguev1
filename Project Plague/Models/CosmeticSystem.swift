@@ -1,5 +1,5 @@
 // CosmeticSystem.swift
-// ProjectPlague
+// GridWatchZero
 // Cosmetic unlocks and UI customization from Insane mode completion
 
 import SwiftUI
@@ -142,7 +142,7 @@ enum InsaneUnlockRequirement: Codable, Equatable {
 class CosmeticState: ObservableObject {
     static let shared = CosmeticState()
 
-    private let saveKey = "ProjectPlague.CosmeticState.v1"
+    private let saveKey = "GridWatchZero.CosmeticState.v1"
 
     @Published var selectedTheme: UITheme = .classic
     @Published var selectedNodeSkin: NodeSkin = .standard

@@ -1,5 +1,5 @@
 // LoreView.swift
-// ProjectPlague
+// GridWatchZero
 // View for reading collected lore fragments and intel
 
 import SwiftUI

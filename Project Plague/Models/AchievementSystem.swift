@@ -1,5 +1,5 @@
 // AchievementSystem.swift
-// ProjectPlague
+// GridWatchZero
 // Extended achievement system beyond basic milestones
 
 import Foundation
@@ -770,7 +770,7 @@ class AchievementManager: ObservableObject {
     @Published var pendingUnlocks: [Achievement] = []
     @Published var showAchievementPopup = false
 
-    private let saveKey = "ProjectPlague.AchievementState.v1"
+    private let saveKey = "GridWatchZero.AchievementState.v1"
 
     private init() {
         load()

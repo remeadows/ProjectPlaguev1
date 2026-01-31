@@ -1,5 +1,5 @@
 // EngagementView.swift
-// ProjectPlague
+// GridWatchZero
 // UI components for daily rewards, streaks, achievements, and collections
 
 import SwiftUI

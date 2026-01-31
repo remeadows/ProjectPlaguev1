@@ -1,5 +1,5 @@
 // MilestoneSystem.swift
-// ProjectPlague
+// GridWatchZero
 // Achievement and milestone tracking
 
 import Foundation

@@ -1,5 +1,5 @@
 // Link.swift
-// ProjectPlague
+// GridWatchZero
 // Network links connecting nodes in the grid
 
 import Foundation

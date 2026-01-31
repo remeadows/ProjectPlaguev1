@@ -1,5 +1,5 @@
 // EventSystem.swift
-// ProjectPlague
+// GridWatchZero
 // Random events that occur during gameplay
 
 import Foundation
@@ -187,6 +187,19 @@ enum EventGenerator {
         case .marked, .targeted, .hammered, .critical:
             positiveWeight = 0.2
             negativeWeight = 0.45
+            // storyWeight = 0.35
+        // Endgame threat levels (T7+) - more story events, very challenging
+        case .ascended, .symbiont, .transcendent:
+            positiveWeight = 0.15
+            negativeWeight = 0.5
+            // storyWeight = 0.35
+        case .unknown, .dimensional, .cosmic:
+            positiveWeight = 0.1
+            negativeWeight = 0.55
+            // storyWeight = 0.35
+        case .paradox, .primordial, .infinite, .omega:
+            positiveWeight = 0.05
+            negativeWeight = 0.6
             // storyWeight = 0.35
         }
 

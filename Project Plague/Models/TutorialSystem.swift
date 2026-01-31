@@ -1,5 +1,5 @@
 // TutorialSystem.swift
-// ProjectPlague
+// GridWatchZero
 // Tutorial step definitions and state management for Level 1
 
 import Foundation
@@ -292,7 +292,7 @@ class TutorialManager: ObservableObject {
 
     @Published var state = TutorialState()
 
-    private let saveKey = "ProjectPlague.TutorialState.v1"
+    private let saveKey = "GridWatchZero.TutorialState.v1"
 
     private init() {
         load()

@@ -1,5 +1,5 @@
 // EngagementSystem.swift
-// ProjectPlague
+// GridWatchZero
 // Daily rewards, streaks, and player engagement systems
 
 import Foundation
@@ -364,7 +364,7 @@ class EngagementManager: ObservableObject {
     @Published var showDailyRewardPopup = false
     @Published var showWeeklyChallenges = false
 
-    private let saveKey = "ProjectPlague.EngagementState.v1"
+    private let saveKey = "GridWatchZero.EngagementState.v1"
 
     private init() {
         load()

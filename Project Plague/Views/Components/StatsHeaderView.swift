@@ -1,5 +1,5 @@
 // StatsHeaderView.swift
-// ProjectPlague
+// GridWatchZero
 // Top header showing credits and key stats
 
 import SwiftUI
@@ -15,6 +15,7 @@ struct StatsHeaderView: View {
     let onShop: () -> Void
     let onLore: () -> Void
     let onMilestones: () -> Void
+    let onSettings: () -> Void
 
     // Campaign mode info (optional)
     var campaignLevelId: Int? = nil
@@ -23,7 +24,7 @@ struct StatsHeaderView: View {
     var onPauseCampaign: (() -> Void)? = nil
 
     @State private var showResetConfirm = false
-    @State private var isAmbientOn = false
+    @StateObject private var audioSettings = AudioSettingsManager.shared
 
     var body: some View {
         VStack(spacing: 8) {
@@ -55,7 +56,7 @@ struct StatsHeaderView: View {
                     .accessibilityAddTraits(.isHeader)
                 } else {
                     // Normal mode - show game title
-                    Text("PROJECT PLAGUE")
+                    Text("GRID WATCH ZERO")
                         .font(.terminalTitle)
                         .foregroundColor(.neonGreen)
                         .glow(.neonGreen, radius: 4)
@@ -132,25 +133,21 @@ struct StatsHeaderView: View {
                     .accessibilityLabel("Shop")
                     .accessibilityHint("Opens unit shop to buy upgrades")
 
-                    // Ambient audio toggle
-                    Button(action: {
-                        AmbientAudioManager.shared.toggleAmbient()
-                        isAmbientOn = AmbientAudioManager.shared.isAmbientPlaying
-                    }) {
-                        Image(systemName: isAmbientOn ? "speaker.wave.2.fill" : "speaker.slash.fill")
+                    // Settings button
+                    Button(action: onSettings) {
+                        Image(systemName: "gearshape.fill")
                             .font(.system(size: 12))
-                            .foregroundColor(isAmbientOn ? .neonCyan : .terminalGray)
+                            .foregroundColor(.neonCyan)
                             .frame(width: 30, height: 30)
                             .background(Color.terminalDarkGray)
                             .cornerRadius(4)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 4)
-                                    .stroke((isAmbientOn ? Color.neonCyan : Color.terminalGray).opacity(0.5), lineWidth: 1)
+                                    .stroke(Color.neonCyan.opacity(0.5), lineWidth: 1)
                             )
                     }
-                    .accessibilityLabel("Ambient audio")
-                    .accessibilityValue(isAmbientOn ? "On" : "Off")
-                    .accessibilityHint("Toggles background music")
+                    .accessibilityLabel("Settings")
+                    .accessibilityHint("Opens audio and game settings")
 
                     Button(action: onToggle) {
                         Image(systemName: isRunning ? "pause.fill" : "play.fill")
@@ -316,7 +313,8 @@ struct StatPill: View {
         onReset: {},
         onShop: {},
         onLore: {},
-        onMilestones: {}
+        onMilestones: {},
+        onSettings: {}
     )
     .background(Color.terminalBlack)
 }

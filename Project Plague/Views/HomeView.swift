@@ -1,5 +1,5 @@
 // HomeView.swift
-// ProjectPlague
+// GridWatchZero
 // Campaign home screen with level select, stats, and team info
 
 import SwiftUI
@@ -12,6 +12,7 @@ struct HomeView: View {
     @State private var selectedLevelId: Int?
     @State private var showTeamSheet = false
     @State private var showProfileSheet = false
+    @State private var showSettingsSheet = false
 
     var onStartLevel: (CampaignLevel, Bool) -> Void  // (level, isInsane)
     var onPlayEndless: () -> Void
@@ -78,6 +79,9 @@ struct HomeView: View {
         .sheet(isPresented: $showProfileSheet) {
             PlayerProfileView(campaignState: campaignState)
         }
+        .sheet(isPresented: $showSettingsSheet) {
+            SettingsView()
+        }
     }
 
     // MARK: - Header
@@ -109,6 +113,17 @@ struct HomeView: View {
                     .font(.terminalMicro)
                     .foregroundColor(.terminalGray)
             }
+
+            // Settings button
+            Button {
+                showSettingsSheet = true
+            } label: {
+                Image(systemName: "gearshape.fill")
+                    .font(.title3)
+                    .foregroundColor(.neonCyan)
+                    .padding(8)
+            }
+            .accessibilityLabel("Open settings")
 
             // Profile button
             Button {
@@ -376,13 +391,8 @@ struct LevelRowView: View {
     }
 
     private var threatColor: Color {
-        let threat = level.startingThreatLevel
-        switch threat {
-        case .marked, .hunted, .targeted, .hammered, .critical: return .neonRed
-        case .priority, .target: return .neonAmber
-        case .signal: return .neonCyan
-        case .ghost, .blip: return .dimGreen
-        }
+        // Use the tier color from Theme.swift for all threat levels
+        Color.tierColor(named: level.startingThreatLevel.color)
     }
 }
 
@@ -740,7 +750,7 @@ struct TeamMember: Identifiable {
             role: "Close-Quarters Muscle",
             initial: "F",
             color: .neonAmber,
-            imageName: "FL3X",
+            imageName: "FL3X_v1",
             loreFragmentId: "team_flex"
         ),
         TeamMember(
@@ -749,7 +759,7 @@ struct TeamMember: Identifiable {
             role: "Street Hacker",
             initial: "T",
             color: .neonGreen,
-            imageName: nil,  // No image asset yet
+            imageName: "Tee_v1",
             loreFragmentId: "team_tee"
         ),
         TeamMember(

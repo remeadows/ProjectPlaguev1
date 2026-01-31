@@ -1,5 +1,5 @@
 // ConnectionLineView.swift
-// ProjectPlague
+// GridWatchZero
 // Visual connector between nodes showing data flow
 
 import SwiftUI

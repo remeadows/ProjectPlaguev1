@@ -1,5 +1,5 @@
 // LoreSystem.swift
-// ProjectPlague
+// GridWatchZero
 // Lore fragments and story progression
 
 import Foundation

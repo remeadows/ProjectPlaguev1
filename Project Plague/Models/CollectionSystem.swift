@@ -1,5 +1,5 @@
 // CollectionSystem.swift
-// ProjectPlague
+// GridWatchZero
 // Collectible data chips, artifacts, and cosmetic unlocks
 
 import Foundation
@@ -440,7 +440,7 @@ class CollectionManager: ObservableObject {
     @Published var pendingChips: [DataChip] = []
     @Published var showChipUnlock = false
 
-    private let saveKey = "ProjectPlague.CollectionState.v1"
+    private let saveKey = "GridWatchZero.CollectionState.v1"
 
     private init() {
         load()
