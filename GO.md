@@ -23,7 +23,15 @@ Then press **Cmd+R** to build and run.
 
 ---
 
-## Current Sprint: Phase 9 - Character System & Polish
+## Current Sprint: Phase 9 - Character System & Polish ✅ COMPLETE
+
+### ✅ Completed: App Store Preparation (2026-02-01)
+- Privacy Policy and Support URLs hosted on GitHub Pages
+- App Store screenshots captured and resized (iPhone 6.5", iPad 12.9")
+- Build 1.0(1) uploaded to App Store Connect
+- TestFlight internal testing configured
+- Export compliance completed
+- iCloud Diagnostic View added for troubleshooting
 
 ### ✅ Completed: Character Dossier System (2026-01-31)
 Unlockable character profiles with detailed BIOs:
@@ -56,7 +64,8 @@ Unlockable character profiles with detailed BIOs:
 - Title changed to "GRID WATCH ZERO"
 
 ### Remaining Tasks
-1. **App Store Prep** - Screenshots, metadata, TestFlight
+1. **TestFlight Testing** - Verify app on device via TestFlight
+2. **App Store Submission** - Submit for Apple review when testing complete
 
 ### New Files Added (Phase 9)
 - `Models/CharacterDossier.swift` - Dossier data model with all character BIOs

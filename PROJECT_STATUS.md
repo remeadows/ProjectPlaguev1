@@ -1,8 +1,8 @@
 # PROJECT_STATUS.md - Grid Watch Zero
 
-## Current Version: 0.9.0-alpha
+## Current Version: 1.0.0
 
-## Last Updated: 2026-01-31
+## Last Updated: 2026-02-01
 
 ---
 
@@ -95,13 +95,19 @@
 - [x] Accessibility improvements (VoiceOver labels, Dynamic Type, reduce motion)
 - [x] Game balance tuning (T2 costs +50%, attack scaling, prestige 150K, bottleneck variety)
 
-### 🔄 Phase 9: Character System & Polish (IN PROGRESS)
+### ✅ Phase 9: Character System & Polish (COMPLETE)
 - [x] Character Dossier System - Unlockable profiles with detailed BIOs
 - [x] Dossier Collection View - Gallery view in Campaign Hub
 - [x] UI Fixes - Alert banner overlay, level count corrections
 - [x] Large number precision fixes (scientific notation for T18+)
 - [x] Added Ronin and T33 to StoryCharacter enum
-- [ ] App Store preparation (screenshots, metadata, TestFlight)
+- [x] App Store preparation (screenshots, metadata, TestFlight)
+- [x] iCloud Diagnostic View for troubleshooting cloud sync
+- [x] Privacy Policy and Support URLs (GitHub Pages)
+- [x] App Store screenshots resized (iPhone 6.5", iPad 12.9")
+- [x] Build 1.0(1) uploaded to App Store Connect
+- [x] TestFlight internal testing configured
+- [x] Export compliance completed
 
 ---
 
@@ -177,6 +183,65 @@ See [ISSUES.md](./ISSUES.md) for detailed tracking.
 **Critical**: None (all closed)
 **Major**: None (all closed)
 **Minor**: None (all closed)
+
+---
+
+## Session Log: 2026-02-01
+
+### Summary
+Completed App Store preparation - build uploaded to TestFlight, all metadata configured.
+
+### App Store Preparation
+
+#### Privacy Policy & Support URLs
+- Created `docs/privacy-policy.html` - Cyberpunk-styled privacy policy
+- Created `docs/support.html` - FAQ and support page
+- Created `docs/index.html` - Landing page
+- Pushed to GitHub repo: remeadows/ProjectPlaguev1
+- Enabled GitHub Pages for hosting
+
+#### Screenshots
+- Captured iPhone screenshots (iPhone 17 Pro)
+- Captured iPad screenshots (iPad Pro 13-inch M5)
+- Resized iPhone screenshots to 1284×2778 (6.5" display)
+- Resized iPad screenshots to 2732×2048 (12.9" landscape)
+- Location: `AppStoreAssets/Screenshots/iPhone_6.5/` and `iPad_Resized/`
+
+#### iCloud Diagnostic Tools
+- Created `CloudDiagnosticView.swift` - Comprehensive diagnostic UI
+- Added iCloud section to SettingsView
+- Enhanced CloudSaveManager with verbose logging
+
+#### App Store Connect Configuration
+- App name: Grid Watch Zero
+- Bundle ID: WarSignal.GridWatchZero
+- SKU: GRIDWATCHZERO001
+- Version: 1.0 (Build 1)
+- Category: Games > Strategy
+- Price: Free
+- Privacy Policy URL: https://remeadows.github.io/ProjectPlaguev1/privacy-policy.html
+- Support URL: https://remeadows.github.io/ProjectPlaguev1/support.html
+
+#### Build & TestFlight
+- Archived build 1.0(1) from Xcode
+- Uploaded to App Store Connect
+- Completed export compliance (uses Apple's encryption via iCloud)
+- Configured internal TestFlight testing
+- TestFlight invitation sent and received
+
+### New Files Created
+- `docs/privacy-policy.html`
+- `docs/support.html`
+- `docs/index.html`
+- `Views/CloudDiagnosticView.swift`
+- `AppStoreAssets/Screenshots/iPhone_6.5/*.png` (7 screenshots)
+- `AppStoreAssets/Screenshots/iPad_Resized/*.png` (4 screenshots)
+
+### Modified Files
+- `Views/SettingsView.swift` - Added iCloud Sync section with diagnostics
+- `Engine/CloudSaveManager.swift` - Added verbose os.log logging
+- `Engine/NavigationCoordinator.swift` - Updated environment object passing
+- `ISSUES.md` - Added ISSUE-017 for iCloud investigation
 
 ---
 
@@ -568,11 +633,11 @@ Fixed critical ISSUE-006 (campaign progress loss), added checkpoint system, expa
 **Completed: Sprint 8 - Release Preparation** ✅
 
 **Remaining Manual Tasks:**
-- [ ] Create app icon (1024x1024 PNG)
-- [ ] Capture screenshots for App Store
-- [ ] Set up TestFlight internal/external testing
-- [ ] Final playtesting and balance tuning
-- [ ] Submit to App Store
+- [x] Create app icon (1024x1024 PNG) - COMPLETE
+- [x] Capture screenshots for App Store - COMPLETE (resized to 1284×2778 iPhone, 2732×2048 iPad)
+- [x] Set up TestFlight internal testing - COMPLETE
+- [x] Final playtesting via TestFlight - IN PROGRESS
+- [ ] Submit to App Store - Ready when testing complete
 
 See APP_STORE_METADATA.md for full submission checklist.
 
